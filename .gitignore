@@ -1,0 +1,21 @@
+# History files
+.Rhistory
+
+# mac thing
+.DS_Store
+
+# Example code in package build process
+*-Ex.R
+
+# intermediate cpp stuff
+*.o
+
+# dirs
+src-x86_64/
+src-i386/
+unused-code/
+olddesc
+Read-and-delete-me
+
+# editor scratch files
+*~

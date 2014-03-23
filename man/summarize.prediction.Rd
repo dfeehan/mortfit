@@ -1,0 +1,19 @@
+\name{summarize.prediction}
+\alias{summarize.prediction}
+\title{summarize.prediction}
+\usage{
+  summarize.prediction(pred.obj, known)
+}
+\arguments{
+  \item{pred.obj}{a mortalityPrediction object}
+
+  \item{known}{a mortalityData object with the known values
+  to compare the predictions to}
+}
+\description{
+  summarize the accuracy of predictions, by which we mean
+  predictions from a model to data where we know the true
+  value (though it doesn't necessarily have tobe the data
+  that we used to fit the model)
+}
+

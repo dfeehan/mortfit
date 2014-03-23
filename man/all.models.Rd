@@ -1,0 +1,15 @@
+\docType{data}
+\name{all.models}
+\alias{all.models}
+\title{this is a list, provided for convenience, of all of
+the models automatically created}
+\format{list}
+\usage{
+  all.models
+}
+\description{
+  this is a list, provided for convenience, of all of the
+  models automatically created
+}
+\keyword{datasets}
+

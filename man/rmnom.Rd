@@ -1,0 +1,20 @@
+\name{rmnom}
+\alias{rmnom}
+\title{rmnom}
+\usage{
+  rmnom(n, p)
+}
+\arguments{
+  \item{n}{a vector with the number of trials for each
+  draw}
+
+  \item{p}{a matrix with one row for each draw (so number
+  of rows should be the same as the length of the vector
+  n). Across each row, p has the probability of each
+  category (so the rows all sum to 1).}
+}
+\description{
+  take a draw from a multinomial distribution TODO --
+  example
+}
+

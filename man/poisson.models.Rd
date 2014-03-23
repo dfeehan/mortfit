@@ -1,0 +1,17 @@
+\docType{data}
+\name{poisson.models}
+\alias{poisson.models}
+\title{this is a list, provided for convenience, of all of
+the models based on the poisson likelihood that are
+automatically created}
+\format{list}
+\usage{
+  poisson.models
+}
+\description{
+  this is a list, provided for convenience, of all of the
+  models based on the poisson likelihood that are
+  automatically created
+}
+\keyword{datasets}
+

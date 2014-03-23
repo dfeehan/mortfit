@@ -1,0 +1,25 @@
+\name{mortalityFit-class}
+\alias{mortalityFit-class}
+\title{mortalityFit}
+\description{
+  representation of a fit of a hazard function (given as a
+  mortalityHazard object) to mortality data (given as a
+  mortalityData object)
+}
+\details{
+  \describe{ \item{name}{the name of this mortality fit}
+  \item{model}{the mortalityModel object used to produce
+  this fit} \item{data}{the mortalityData object used to
+  produce this fit} \item{method}{the fitMethod used to
+  produce this fit} \item{theta.init}{vector with the
+  initial estimates of the parameters used to produce this
+  fit} \item{theta.hat}{the final estimated values of the
+  parameters} \item{log.likelihood}{the log-likelihood of
+  this model fit to this data.} \item{fitted.values}{a
+  mortalityPrediction object containing the actual
+  predicted values for this model and dataset}
+  \item{fit.summary}{if not NULL, a fitSummary object
+  containing a summary of various measures of how well this
+  model fits this dataset} }
+}
+

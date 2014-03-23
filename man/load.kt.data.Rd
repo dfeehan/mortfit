@@ -1,0 +1,29 @@
+\name{load.kt.data}
+\alias{load.kt.data}
+\title{load.kt.data}
+\usage{
+  load.kt.data(kt.desc.file, kt.dir, kt.format = "1")
+}
+\arguments{
+  \item{kt.desc.file}{location of .csv file which describes
+  which country-years/cohorts to use}
+
+  \item{kt.dir}{the directory which has the data files for
+  the kannisto-thatcher database}
+
+  \item{kt.format}{which of the files to use (for period
+  data) defaults to "1"; no foreseeable need to change
+  this}
+}
+\value{
+  an object containing (i) a two-dimensional list of data
+  frames, indexed by (country, sex); (ii) country.years, a
+  data frame with the countries and years in the object
+}
+\description{
+  load the period and cohort mortality rates from the
+  kannisto-thatcher database based on the years, cohorts,
+  and countries given in the passed-in file TODO - the
+  load.hmd files are not yet documented
+}
+

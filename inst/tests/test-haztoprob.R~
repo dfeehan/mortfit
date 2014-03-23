@@ -1,0 +1,31 @@
+#########################################################
+## test the conversion of hazards to probabilities
+##
+
+context("testing haz.to.prob")
+
+##### first test the approximation(s)
+
+
+
+##### then test the numerical integration version...
+
+this.theta <- c(-2.5, .08)
+
+test1 <- haz.to.prob( gomp.haz@haz.fn,
+                      this.theta,
+                      0:20 )
+
+## now compute analytic result and compare...
+                      
+
+## TODO -- run for a few scenarios and be sure that
+##         it generally converges, and also that the values
+##         are probabilities (ie, 0 <= phat <= 1)
+
+## TODO -- take some simple examples with easy closed-form answers
+##         and check them (Gompertz, Weibull, etc)
+
+## TODO -- eventually, use Mathematica to get some external
+##         computations for some examples; these can be good
+##         validators

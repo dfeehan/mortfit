@@ -1,0 +1,20 @@
+\name{createPoissonModel}
+\alias{createPoissonModel}
+\title{factory method for models using the Poisson likelihood}
+\usage{
+  createPoissonModel(haz.obj)
+}
+\arguments{
+  \item{haz.obj}{the mortalityHazard object to use in
+  creating a mortalityModel}
+}
+\value{
+  a mortalityModel object
+}
+\description{
+  factory method for models that use the binomial
+  log-likelihood fn; takes hazard being used as an input
+  NB: this function expects the ages to have 0.5 already
+  added, if that is appropriate
+}
+

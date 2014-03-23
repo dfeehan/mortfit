@@ -1,0 +1,20 @@
+\name{plot.mortalityDataWithFit}
+\alias{plot.mortalityDataWithFit}
+\title{method to plot a mortalityFit object and the data
+it was fitted to}
+\usage{
+  plot.mortalityDataWithFit(x, y = NULL, Dx = FALSE)
+}
+\arguments{
+  \item{x}{mortalityFit object}
+
+  \item{y}{(needed to match generic signature -- not used)}
+
+  \item{Dx}{if TRUE, plot deaths; otherwise, plot central
+  death rates}
+}
+\description{
+  method to plot a mortalityFit object and the data it was
+  fitted to
+}
+

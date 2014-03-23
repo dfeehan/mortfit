@@ -1,0 +1,146 @@
+
+if(1==0) {
+  
+  library(devtools)
+  library(roxygen2)
+  library(testthat)
+
+  source("~/Dropbox/oldageff/code/mac-directories.R")
+
+  pkg.dir <- paste(code.dir, "/../mortfit", sep="")
+
+  load_all(pkg.dir,reset=TRUE)
+
+  mort.model <- all.models[[7]]
+
+  i <- 1
+  m <- 1
+
+  optim.fits <- list()
+  M <- 20
+}
+
+optim.fits <- list()
+
+#####################################
+## go through each mortality model
+## (eventually)
+for(mort.model in all.models) {
+##mort.model <- all.models[[7]]
+
+  context(paste("testing optimFitMethod for",
+                mort.model@name))
+  
+  ## this is the number of repetitions per
+  ## set of parameters we'll do
+  M <- 20
+
+  ## these are the true values of the parameters we'll
+  ## test
+  sim.thetas <- list(c(mort.model@theta.default),
+                     c(.5*mort.model@theta.default),
+                     c(1.5*mort.model@theta.default))
+  theta.hats <- list()
+  sim.data <- list()
+  folded.data <- list()
+  
+  ##cat("\nStarting tests for ", mort.model@name, "\n")
+  
+  for(i in seq_along(sim.thetas)) {
+
+    ##cat("\n   ")
+    
+    for(m in 1:M) {
+  
+      ##cat(" ...", m)
+  
+      ## say we have 100 people at each age from 80 to 99
+      these.ages <- 80:99
+      ## NB: had to increase the population sizes to be sure that simulated
+      ##     data had maxlik param vals sufficiently close to 'true' ones for
+      ##     logistic model
+      ##     TODO -- also/or increase M...
+      sim.data[[m]] <- mort.model@simulate.fn(theta=sim.thetas[[i]],
+                                              ##Nx=rep(1000000,length(these.ages)),
+                                              Nx=rep(10000000,length(these.ages)),
+                                              age=these.ages)
+
+
+      if(1==0) {
+      theta.test <- c(0.08, 0.13, 0.01, -1.44)
+      theta.test <- sim.thetas[[i]]      
+      sim.test <- mort.model@simulate.fn(theta=theta.test,
+                                         Nx=rep(1000000,length(these.ages)),
+                                         age=these.ages)
+      plot(sim.test, logistic.haz, theta=theta.test)
+      
+      sim.test@data
+      }
+      
+      folded.data[[m]] <- partition.into.folds(5, sim.data[[m]])
+
+      ## uncomment to actually plot the hazard and the drawn data
+      ##sim.data.plots[[mort.model@name]] <- plot(these.sim.data, weibull.haz)
+
+      tmp.optim <- mort.fit(mort.model,
+                            folded.data[[m]],
+                            optimFit,
+                            verbose=FALSE)
+
+      optim.fits[[m]] <- tmp.optim
+
+      if(1==0) {
+        prof.12 <- plot.ll.prof(tmp.optim,
+                                theta.idx=c(1,2),
+                                delta=0.05,
+                                res=100)        
+        prof.13 <- plot.ll.prof(tmp.optim,
+                                theta.idx=c(1,3),
+                                delta=0.05,
+                                res=100)
+        prof.13 <- plot.ll.prof(tmp.optim,
+                                theta.idx=c(1,3),
+                                delta=0.9,
+                                res=200)
+        prof.14 <- plot.ll.prof(tmp.optim,
+                                theta.idx=c(1,4),
+                                delta=0.05,
+                                res=100)
+        prof.23 <- plot.ll.prof(tmp.optim,
+                                theta.idx=c(2,3),
+                                delta=0.05,
+                                res=100)
+        prof.24 <- plot.ll.prof(tmp.optim,
+                                theta.idx=c(2,4),
+                                delta=0.05,
+                                res=100)
+        prof.34 <- plot.ll.prof(tmp.optim,
+                                theta.idx=c(3,4),
+                                delta=0.05,
+                                res=100)
+        ## also compare fitted and true theta plots
+        plot(sim.data[[m]], logistic.haz, theta=tmp.optim@theta.hat)
+        dev.new()
+        plot(sim.data[[m]], logistic.haz, theta=sim.thetas[[i]])        
+
+      }
+      
+    }
+
+    theta.hats[[i]] <- ldply(optim.fits,
+                             function(x) { x@theta.hat })
+    ##plot(sim.data[[15]], quad.haz, theta=sim.thetas[[i]])
+    theta.means <- colMeans(theta.hats[[i]])
+
+    relerr <- ((theta.means-sim.thetas[[i]])/sim.thetas[[i]])
+    thistest <- all(relerr < 0.05)
+    expect_true(thistest, paste(mort.model@name, " param set ", i, sep=""))
+
+    cat("thistest is ", thistest, "\n")
+    
+  }
+}
+
+
+
+

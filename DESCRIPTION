@@ -1,0 +1,38 @@
+Package: mortfit
+Type: Package
+Title: Fit and evaluate mortality models
+Version: 0.0.1
+Date: 2011-07-20
+Author: Dennis Feehan
+Maintainer: Dennis Feehan <dfeehan@princeton.edu>
+Description: mortfit is a package to accompany [article],
+    which evaluates the use of several mortality models
+    using data on deaths at old ages from the
+    Kannisto-Thatcher database.
+License: GPL-2
+Depends:
+    Rcpp (>= 0.9.4.1)
+LinkingTo: Rcpp
+LazyLoad: yes
+Collate:
+    'classdefns.R'
+    'fitmethod-gridSearch.R'
+    'fitmethod-optim.R'
+    'fitmethod-combined.R'
+    'fitmethods.R'
+    'library.R'
+    'mortalityhazard-consthaz.R'
+    'mortalityhazard-eta.R'
+    'mortalityhazard-exweibull.R'
+    'mortalityhazard-gompertz.R'
+    'mortalityhazard-kannisto.R'
+    'mortalityhazard-logistic.R'
+    'mortalityhazard-lynchbrown.R'
+    'mortalityhazard-makeham.R'
+    'mortalityhazard-quadratic.R'
+    'mortalityhazard-weibull.R'
+    'mortalitymodels.R'
+    'mortfit-help.R'
+    'rmnom.R'
+    'classdefns-showmethods.R'
+    'plotmethods.R'

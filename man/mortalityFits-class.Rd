@@ -1,0 +1,14 @@
+\name{mortalityFits-class}
+\alias{mortalityFits-class}
+\title{mortalityFits}
+\description{
+  representation of a list of several fits of
+  mortalityHazard objects to the same data
+}
+\details{
+  \describe{ \item{name}{the name of this set of fits}
+  \item{data}{the mortalityData object that all of these
+  models were fit to} \item{fits}{a list whose entries
+  contain the fits of all of the models} }
+}
+

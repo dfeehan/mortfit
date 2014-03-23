@@ -1,0 +1,36 @@
+\name{grid.fit}
+\alias{grid.fit}
+\title{grid.fit}
+\usage{
+  grid.fit(model.obj, data, verbose = FALSE, M = 3,
+    delta = 0.1, grid.dim = 20, theta.init = NULL,
+    cpp = FALSE, ...)
+}
+\arguments{
+  \item{model.obj}{the model object}
+
+  \item{data}{a mortalityData object}
+
+  \item{verbose}{if TRUE, print details of fit to the
+  screen}
+
+  \item{M}{the number of rounds of grid search to use (see
+  \link{optimize.grid})}
+
+  \item{delta}{the delta parameter (see
+  \link{optimize.grid})}
+
+  \item{grid.dim}{the size of each dimension of the grid
+  (see \link{optimize.grid})}
+
+  \item{theta.init}{if not NULL, the values around which
+  the grid should be centered.  if NULL, defaults will be
+  used}
+
+  \item{cpp}{if TRUE, use C++ version of the grid search
+  algorithm (defaults to FALSE)}
+}
+\description{
+  use grid search to fit a model to data
+}
+

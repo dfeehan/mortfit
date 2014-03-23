@@ -1,0 +1,25 @@
+\name{grid.around}
+\alias{grid.around}
+\title{helper function which constructs a vector grid around
+the value x; the grid is guaranteed to include x in its middle}
+\usage{
+  grid.around(x, delta, numsteps)
+}
+\arguments{
+  \item{x}{the value to center the grid around}
+
+  \item{delta}{the range of the grid (eg .1 for .9x to
+  1.1x)}
+
+  \item{numsteps}{the number of entries on the grid}
+}
+\value{
+  the grid slice
+}
+\description{
+  helper function which constructs a vector grid around the
+  value x; the grid is guaranteed to include x in its
+  middle
+}
+\keyword{internal}
+

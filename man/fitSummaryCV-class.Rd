@@ -1,0 +1,17 @@
+\name{fitSummaryCV-class}
+\alias{fitSummaryCV-class}
+\title{fitSummaryCV}
+\description{
+  summary of a the fit of a mortality model to a mortality
+  dataset, including cross-validation; extends
+  \code{\link{fitSummary-class}}
+}
+\details{
+  \describe{ \item{cv.err.Dx}{the sum of squared errors in
+  using cross validation to predict out of sample}
+  \item{cv.rmse.Dx}{the root mean squared error derived
+  from \code{cv.err.Dx}} \item{fold.fits}{a list whose
+  entries have the results of fitting the model for each
+  fold (see \code{mort.fit.cv}} }
+}
+

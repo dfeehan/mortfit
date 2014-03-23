@@ -1,0 +1,35 @@
+\name{mort.fit.cv}
+\alias{mort.fit.cv}
+\title{mort.fit.cv}
+\usage{
+  mort.fit.cv(model.obj, data, method, verbose = TRUE,
+    keep.folds.fits = FALSE, ...)
+}
+\arguments{
+  \item{model.obj}{the mortalityModel object}
+
+  \item{data}{a mortalityDataFolded object}
+
+  \item{method}{a fitMethod}
+
+  \item{verbose}{if TRUE, print extra info}
+
+  \item{keep.folds.fits}{if TRUE, retain all of the results
+  from fitting each individual fold.  this is useful for
+  debugging, but can take up a lot of memory.}
+
+  \item{...}{other arguments to mort.fit}
+}
+\value{
+  a mortalityFit object
+}
+\description{
+  fit one of the functions to mortality data using k-fold
+  cross-validation this function basically chooses k folds,
+  runs mort.fit on each one, computes the error, and then
+  re-runs the fit on the entire data; finally, it returns
+  the result. it is designed to be called automatically
+  from mort.fit when that method is passed a
+  mortalityDataFolded object.
+}
+

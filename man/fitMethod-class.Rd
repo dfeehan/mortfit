@@ -1,0 +1,19 @@
+\name{fitMethod-class}
+\alias{fitMethod-class}
+\title{fitMethod}
+\description{
+  representation of a strategy for fitting a function to
+  data. for example, one fitMethod included with the
+  \code{mortfit} package is \code{optimFit}, which uses the
+  BFGS algorithm in R's \link{stats:optim} package
+}
+\details{
+  \describe{ \item{name}{the name of the fit method}
+  \item{fit}{a function which actually fits a model to
+  data. it takes as its arguments \describe{
+  \item{model.obj}{the mortalityModel object to fit}
+  \item{data}{the mortalityData to fit the model to}
+  \item{...}{other arguments, specific to the fit method}
+  }} }
+}
+

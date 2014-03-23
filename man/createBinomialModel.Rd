@@ -1,0 +1,20 @@
+\name{createBinomialModel}
+\alias{createBinomialModel}
+\title{createBinomialModel}
+\usage{
+  createBinomialModel(haz.obj)
+}
+\arguments{
+  \item{haz.obj}{the mortalityHazard object to use in
+  creating a mortalityModel}
+}
+\value{
+  a mortalityModel object
+}
+\description{
+  factory method for models that use the binomial
+  log-likelihood fn; takes hazard being used as an input
+  NB: do not add 0.5 to the ages or anything like that
+  here...
+}
+

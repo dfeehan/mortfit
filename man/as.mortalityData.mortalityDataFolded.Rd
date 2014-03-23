@@ -1,0 +1,20 @@
+\name{as.mortalityData.mortalityDataFolded}
+\alias{as.mortalityData.mortalityDataFolded}
+\title{as.mortalityData.mortalityDataFolded}
+\usage{
+  as.mortalityData.mortalityDataFolded(obj, ...)
+}
+\arguments{
+  \item{obj}{the mortalityDataFolded object to convert to a
+  mortalityData one}
+
+  \item{...}{other params (not yet used)}
+}
+\value{
+  a mortalityData object
+}
+\description{
+  convert a mortalityDataFolded object into a mortalityData
+  one by losing the info on the folds
+}
+

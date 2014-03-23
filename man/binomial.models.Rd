@@ -1,0 +1,17 @@
+\docType{data}
+\name{binomial.models}
+\alias{binomial.models}
+\title{this is a list, provided for convenience, of all of
+the models based on the binomial likelihood that are
+automatically created}
+\format{list}
+\usage{
+  binomial.models
+}
+\description{
+  this is a list, provided for convenience, of all of the
+  models based on the binomial likelihood that are
+  automatically created
+}
+\keyword{datasets}
+

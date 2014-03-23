@@ -1,0 +1,38 @@
+\name{haz.to.prob}
+\alias{haz.to.prob}
+\title{convert from hazards to probs}
+\usage{
+  haz.to.prob(haz.fn, theta, ages, nozero = TRUE,
+    approx = FALSE)
+}
+\arguments{
+  \item{haz.fn}{the hazard function}
+
+  \item{theta}{parameter values for the hazard function}
+
+  \item{ages}{a vector of ages with entries (z1,z2,...,zk).
+  we'll return probabilities of survival for (z1,z2),
+  (z2,z3), ..., (z(k-1),zk)}
+
+  \item{nozero}{if TRUE, replace values that would be
+  returned as zero with very small numbers instead. (this
+  prevents errors when taking logs.)}
+
+  \item{approx}{if TRUE, use analytical approximation; if
+  FALSE, use numerical integration}
+}
+\value{
+  a vector of probabilities
+}
+\description{
+  this function takes a hazard function and an age range
+  and returns an approximation of the probability of death
+  implied by the hazard over that age range. it does this
+  either through approximations or through numerical
+  integration. TODO - add more details here NB: this
+  function expects ages to be the starting age (no need to
+  add 0.5 or anything) TODO - document warning for
+  integration try-error TODO - tests here - not too hard to
+  think of...
+}
+

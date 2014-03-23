@@ -1,0 +1,18 @@
+\name{partition.into.folds}
+\alias{partition.into.folds}
+\title{partition.into.folds}
+\usage{
+  partition.into.folds(num.folds, data)
+}
+\arguments{
+  \item{num.folds}{the number of folds, k}
+
+  \item{data}{a mortalityData object}
+}
+\value{
+  a mortalityDataFolded object
+}
+\description{
+  given a set of indexes, partition it into k folds
+}
+

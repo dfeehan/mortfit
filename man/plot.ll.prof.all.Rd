@@ -1,0 +1,36 @@
+\name{plot.ll.prof.all}
+\alias{plot.ll.prof.all}
+\title{plot likelihood profile for all parameters}
+\usage{
+  plot.ll.prof.all(fit, delta = 0.1, res = 100,
+    heatmap = FALSE, show = FALSE, ...)
+}
+\arguments{
+  \item{fit}{a mortalityFit object}
+
+  \item{delta}{window around the fitted max to profile. if
+  delta is 0.1, then plot values for (0.9*max, 1.1*max),
+  where max is the fitted maximum parameter value}
+
+  \item{res}{the resolution, or size of the grid on which
+  the likelihood is evaluated. large grids may take a long
+  time}
+
+  \item{heatmap}{if TRUE, return a heatmap for each pair of
+  parameters; otherwise, return a contour plot}
+
+  \item{show}{if TRUE, actually plot the list of plots (as
+  a side effect), in addition to returning it}
+
+  \item{...}{other arguments TODO}
+}
+\value{
+  a list whose entries contain ggplot2 plots of the
+  profiles
+}
+\description{
+  given a fitted mortalityModel, plot the profile of the
+  log-likelihood function for all pairs of parameters. this
+  can take a while if there are many parameters
+}
+

@@ -1,0 +1,27 @@
+\name{plot.mortalityHazard}
+\alias{plot.mortalityHazard}
+\title{Plot mortality hazard, represented by a
+mortalityHazard object and possibly a
+vector of parameters}
+\usage{
+  plot.mortalityHazard(x, age = 1:19, age.offset = 80,
+    theta = NULL)
+}
+\arguments{
+  \item{x}{the mortalityHazard object to plot}
+
+  \item{age}{the age range to plot over}
+
+  \item{age.offset}{the offset used (often 80)}
+
+  \item{theta}{the vector of parameters to use. if none is
+  specified, use the mortalityHazard object's defaults}
+}
+\value{
+  a ggplot2 object containing the plot
+}
+\description{
+  Plot mortality hazard, represented by a mortalityHazard
+  object and possibly a vector of parameters
+}
+

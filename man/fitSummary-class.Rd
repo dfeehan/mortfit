@@ -1,0 +1,20 @@
+\name{fitSummary-class}
+\alias{fitSummary-class}
+\title{fitSummary}
+\description{
+  Summary of a the fit of a mortality model to a mortality
+  dataset. Note that many of these criteria only make sense
+  when compared to other models.
+}
+\details{
+  \describe{ \item{AIC}{Akaike's Information Criterion}
+  \item{BIC}{Bayesian Information Criterion}
+  \item{SSE.Dx}{The sum of squared errors in the predicted
+  number of deaths by age} \item{chisq}{The chi-square
+  value} \item{chisq.p}{The p-value associated with the
+  chi-square value} \item{chisq.byage}{Chi-square value for
+  each age's prediction} \item{chisq.byage.p}{The p-values
+  associated with the age-specific chi-square values}
+  \item{deviance}{The deviance} }
+}
+

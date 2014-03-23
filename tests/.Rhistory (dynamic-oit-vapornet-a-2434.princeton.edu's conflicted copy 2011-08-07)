@@ -1,0 +1,8 @@
+q()
+n
+install.packages('devtools')
+install.packages("devtools", repos="http://cran.r-project.org")
+?install.packages
+install.packages("devtools", repos="http://cran.r-project.org", type="source")
+q()
+n

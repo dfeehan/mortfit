@@ -1,0 +1,24 @@
+\name{combined.fit}
+\alias{combined.fit}
+\title{combined.fit}
+\usage{
+  combined.fit(model.obj, data, M = 5, delta = 0.1,
+    grid.dim = 15, verbose = TRUE, ignore.folded = FALSE,
+    ...)
+}
+\arguments{
+  \item{model.obj}{a mortalityModel object}
+
+  \item{data}{a mortalityData object}
+
+  \item{...}{other params to pass to optimFit and
+  gridSearchFit's fit methods}
+}
+\value{
+  a mortalityFitOptim object
+}
+\description{
+  use a combination of optim followed by a grid search to
+  fit a mortality model
+}
+

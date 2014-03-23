@@ -1,0 +1,21 @@
+\name{grab.kt.data}
+\alias{grab.kt.data}
+\title{grab.kt.data}
+\usage{
+  grab.kt.data(data, tags)
+}
+\arguments{
+  \item{data}{the list containing the mortalityData objects
+  from the kannisto-thatcher database}
+
+  \item{tags}{the tags to search for}
+}
+\value{
+  a list of mortalityData objects from the database that
+  match the tags passed into this function
+}
+\description{
+  this is a helper function which grabs datasets from the
+  kannisto-thatcher database using their tags
+}
+

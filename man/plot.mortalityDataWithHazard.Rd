@@ -1,0 +1,21 @@
+\name{plot.mortalityDataWithHazard}
+\alias{plot.mortalityDataWithHazard}
+\title{method to plot mortality hazard on top
+of data
+method to plot mortality hazard}
+\usage{
+  plot.mortalityDataWithHazard(x, y, theta = NULL)
+}
+\arguments{
+  \item{x}{mortalityData object}
+
+  \item{y}{mortalityHazard object}
+
+  \item{theta}{the parameter values to use (defaults are
+  chosen if NULL)}
+}
+\description{
+  method to plot mortality hazard on top of data method to
+  plot mortality hazard
+}
+

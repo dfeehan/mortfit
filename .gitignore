@@ -9,6 +9,7 @@
 
 # intermediate cpp stuff
 *.o
+*.so
 
 # dirs
 src-x86_64/

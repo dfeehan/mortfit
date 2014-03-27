@@ -11,6 +11,16 @@
 
   \item{data}{a mortalityData object}
 
+  \item{M}{TODO}
+
+  \item{delta}{TODO}
+
+  \item{grid.dim}{TODO}
+
+  \item{verbose}{TODO}
+
+  \item{ignore.folded}{TODO}
+
   \item{...}{other params to pass to optimFit and
   gridSearchFit's fit methods}
 }

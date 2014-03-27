@@ -15,6 +15,7 @@
 ##'
 ##' @param x the mortalityData object to plot
 ##' @param y (not used)
+##' @param ... TODO
 ##' @export
 plot.mortalityData <- function(x,y=NULL,...) {
 
@@ -31,6 +32,7 @@ plot.mortalityData <- function(x,y=NULL,...) {
 ##'
 ##' @param x the mortalityData object to plot
 ##' @param y (not used)
+##' @param ... TODO 
 ##' @export
 plot.mortalityDataFolded <- function(x,y=NULL,...) {
 

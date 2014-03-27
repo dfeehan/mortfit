@@ -27,6 +27,11 @@ setClass("mortalityFitCombined",
 ##'
 ##' @param model.obj a mortalityModel object
 ##' @param data a mortalityData object
+##' @param M TODO
+##' @param delta TODO
+##' @param grid.dim TODO
+##' @param verbose TODO
+##' @param ignore.folded TODO
 ##' @param ... other params to pass to optimFit and gridSearchFit's
 ##'            fit methods
 ##' @return a mortalityFitOptim object

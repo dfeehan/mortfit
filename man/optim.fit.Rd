@@ -18,6 +18,8 @@
   uniformly from the values specified by theta.range}
 
   \item{verbose}{if TRUE, print extra info}
+
+  \item{...}{TODO}
 }
 \value{
   a mortalityFitOptim object

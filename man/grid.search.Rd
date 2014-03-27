@@ -18,6 +18,8 @@
   apply()}
 
   \item{...}{other args, to be passed along to func}
+
+  \item{verbose}{print detailed output}
 }
 \description{
   find the max (or min) of a function by brute-force search

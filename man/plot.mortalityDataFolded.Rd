@@ -8,6 +8,8 @@
   \item{x}{the mortalityData object to plot}
 
   \item{y}{(not used)}
+
+  \item{...}{TODO}
 }
 \description{
   method to plot mortality data

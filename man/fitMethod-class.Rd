@@ -5,7 +5,8 @@
   representation of a strategy for fitting a function to
   data. for example, one fitMethod included with the
   \code{mortfit} package is \code{optimFit}, which uses the
-  BFGS algorithm in R's \link{stats:optim} package
+  BFGS algorithm in R's \code{\link[stats:optim]{optim}}
+  package
 }
 \details{
   \describe{ \item{name}{the name of the fit method}

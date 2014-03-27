@@ -29,6 +29,8 @@
 
   \item{cpp}{if TRUE, use C++ version of the grid search
   algorithm (defaults to FALSE)}
+
+  \item{...}{TODO}
 }
 \description{
   use grid search to fit a model to data

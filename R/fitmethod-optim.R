@@ -28,13 +28,15 @@ setClass("mortalityFitOptim",
 ##'                     uniformly from the values specified
 ##'                     by theta.range
 ##' @param verbose if TRUE, print extra info
+##' @param ... TODO 
 ##' @return a mortalityFitOptim object
 ##' @export
 optim.fit <- function(model.obj,
                       data,
                       theta.init=NULL,
                       random.start=FALSE,
-                      verbose=FALSE,...)
+                      verbose=FALSE,
+                      ...)
 {
 
   ## get initial parameters, unless they were

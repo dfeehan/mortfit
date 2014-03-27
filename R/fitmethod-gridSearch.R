@@ -26,6 +26,7 @@ setClass("mortalityFitGridSearch",
 ##'            use R's apply()
 ##' @param  ... other args, to be passed
 ##'             along to func
+##' @param verbose print detailed output
 grid.search <- function(grid.vals,
                         func,
                         return.grid=FALSE,
@@ -353,6 +354,7 @@ grid.around <- function(x, delta, numsteps) {
 ##'                   if NULL, defaults will be used
 ##' @param cpp if TRUE, use C++ version of the grid search
 ##'        algorithm (defaults to FALSE)
+##' @param ... TODO
 grid.fit <- function(model.obj,
                      data,
                      verbose=FALSE,

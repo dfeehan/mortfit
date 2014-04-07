@@ -23,7 +23,7 @@ plot.mortalityData <- function(x,y=NULL,...) {
 
     toret <- ggplot(x@data) +
         geom_point(aes(x=plotage,y=(Dx/Nx),size=Nx),pch=1) +
-        xlab("age") + ylab("Dx/Nx") + opts(title=x@name) + scale_area()
+        xlab("age") + ylab("Dx/Nx") + ggtitle(x@name) + scale_area()
     return(toret)
 }
 
@@ -40,7 +40,7 @@ plot.mortalityDataFolded <- function(x,y=NULL,...) {
 
     toret <- ggplot(x@data) +
         geom_point(aes(x=plotage,y=(Dx/Nx),size=Nx),pch=1) +
-        xlab("age") + ylab("Dx/Nx") + opts(title=x@name) + scale_area()
+        xlab("age") + ylab("Dx/Nx") + ggtitle(x@name) + scale_area()
     return(toret)
 }
 
@@ -73,9 +73,9 @@ plot.mortalityHazard <- function(x,
   
   toret <- ggplot(plotdat) +
            geom_line(aes(x=age,y=mu)) +
-           opts(title=paste(x@name, " - (",
-                            paste(theta, collapse=","),
-                            ") - age offset: ", age.offset, sep=""))
+           ggtitle(paste0(x@name, " - (",
+                          paste(theta, collapse=","),
+                          ") - age offset: ", age.offset))
 
   return(toret)
 }
@@ -140,8 +140,8 @@ plot.mortalityDataWithHazard <- function(x,y,
            ##geom_line(aes(x=(age),y=pi),color="red", data=haz.dat)+
            ##geom_point(aes(x=(age-0.5), y=(Dx/Nx)), color="yellow", pch=2)+
            labs(x="age", y="hazard /\ncentral death rate") +
-           opts(title=paste(x@name, "\n", y@name, "\n",
-                            "(", paste(round(theta,4),collapse=", "), ")", sep="")) +
+           ggtitle(paste0(x@name, "\n", y@name, "\n",
+                          "(", paste(round(theta,4),collapse=", "), ")")) +
            scale_area()
 
   return(toret)
@@ -179,7 +179,7 @@ plot.mortalityDataWithFit <- function(x,
                 geom_point(aes(x=ages, y=fitDx),color="red",pch=3) +
                 xlab("age") + ylab("number of deaths") +
                 scale_area() +
-                opts(title=x@name)
+                ggtitle(x@name)
     
   }
 
@@ -207,7 +207,7 @@ plot.mortalityDataWithFits <- function(x,
 
   resplots <- llply(x@fits,
                     function(x) {
-                      return(plot(x,Dx=Dx) + opts(legend.position="none"))
+                      return(plot(x,Dx=Dx) + theme(legend.position="none"))
                     })
                     ##plot,
                     ##Dx=Dx)

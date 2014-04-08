@@ -74,7 +74,7 @@ logistic.haz   <- new("mortalityHazard",
                       theta.start.fn=function(data.obj) {
 
                         #### TEMP -- try using these values for everyone
-                        return(c(-3.2, -2.1, -4.9, -2.5))
+                        #return(c(-3.2, -2.1, -4.9, -2.5))
                         
                         ## choose starting values by getting b from
                         ## a logistic regression...

@@ -23,7 +23,7 @@ plot.mortalityData <- function(x,y=NULL,...) {
 
     toret <- ggplot(x@data) +
         geom_point(aes(x=plotage,y=(Dx/Nx),size=Nx),pch=1) +
-        xlab("age") + ylab("Dx/Nx") + ggtitle(x@name) + scale_area()
+        xlab("age") + ylab("Dx/Nx") + ggtitle(x@name) + scale_size_area()
     return(toret)
 }
 
@@ -40,7 +40,7 @@ plot.mortalityDataFolded <- function(x,y=NULL,...) {
 
     toret <- ggplot(x@data) +
         geom_point(aes(x=plotage,y=(Dx/Nx),size=Nx),pch=1) +
-        xlab("age") + ylab("Dx/Nx") + ggtitle(x@name) + scale_area()
+        xlab("age") + ylab("Dx/Nx") + ggtitle(x@name) + scale_size_area()
     return(toret)
 }
 
@@ -142,7 +142,7 @@ plot.mortalityDataWithHazard <- function(x,y,
            labs(x="age", y="hazard /\ncentral death rate") +
            ggtitle(paste0(x@name, "\n", y@name, "\n",
                           "(", paste(round(theta,4),collapse=", "), ")")) +
-           scale_area()
+           scale_size_area()
 
   return(toret)
     
@@ -178,7 +178,7 @@ plot.mortalityDataWithFit <- function(x,
                 geom_line(aes(x=ages, y=fitDx),color="red") +
                 geom_point(aes(x=ages, y=fitDx),color="red",pch=3) +
                 xlab("age") + ylab("number of deaths") +
-                scale_area() +
+                scale_size_area() +
                 ggtitle(x@name)
     
   }

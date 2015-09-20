@@ -11,8 +11,11 @@ for(mort.model in all.models) {
   ## these are the true values of the parameters we'll
   ## test
   sim.thetas <- list(c(mort.model@theta.default),
-                     c(.75*mort.model@theta.default),
-                     c(1.25*mort.model@theta.default))
+                     plyr::laply(mort.model@theta.range, function(x) x[1]),
+                     plyr::laply(mort.model@theta.range, function(x) x[2]))
+                     #sim.thetas <- list(c(mort.model@theta.default),
+  #                   c(.75*mort.model@theta.default),
+  #                   c(1.25*mort.model@theta.default))
   theta.hats <- list()
   sim.data <- list()
   folded.data <- list()
@@ -27,15 +30,29 @@ for(mort.model in all.models) {
       ## NB: had to increase the population sizes to be sure that simulated
       ##     data had maxlik param vals sufficiently close to 'true' ones for
       ##     logistic model
-      sim.data <- mort.model@simulate.fn(theta=sim.thetas[[i]],
-                                         Nx=rep(100000,length(these.ages)),
-                                         age=these.ages,
-                                         means=TRUE)
+      sim.data <- try(mort.model@simulate.fn(theta=sim.thetas[[i]],
+                                             Nx=rep(1e5,length(these.ages)),
+                                             age=these.ages,
+                                             means=TRUE))
+      expect_that(sim.data,
+                  is_a("mortalityData"),
+                  paste0(mort.model@name, " param set ", i),
+                  "creating simulated data")
+ 
+      #true.ll <- try(mort.model@loglik.fn(theta=mid.thetas,
+      #                                    Dx=sim.data@data$Dx,
+      #                                    Nx=sim.data@data$Nx,
+      #                                    ages=(these.ages-min(these.ages))))
 
-      true.ll <- mort.model@loglik.fn(theta=sim.thetas[[i]],
-                                      Dx=sim.data@data$Dx,
-                                      Nx=sim.data@data$Nx,
-                                      ages=(these.ages-min(these.ages)))
+      true.ll <- try(mort.model@loglik.fn(theta=sim.thetas[[i]],
+                                          Dx=sim.data@data$Dx,
+                                          Nx=sim.data@data$Nx,
+                                          ages=(these.ages-min(these.ages))))
+
+      expect_that(true.ll, 
+                  is_a("numeric"),
+                  paste0(mort.model@name, " param set ", i),
+                  "true ll is numeric")
       
       ## TODO -- eventually test on folded data...
       ##folded.data <- partition.into.folds(5, sim.data)

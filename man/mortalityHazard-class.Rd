@@ -1,4 +1,5 @@
 \name{mortalityHazard-class}
+\alias{mortalityHazard}
 \alias{mortalityHazard-class}
 \title{mortalityHazard}
 \description{

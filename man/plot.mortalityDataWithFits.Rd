@@ -4,7 +4,7 @@
 data they were fitted to (results in a grid of plots)}
 \usage{
   plot.mortalityDataWithFits(x, y = NULL, Dx = TRUE,
-    ncol = NULL, pdffile = NULL, ...)
+    ncol = NULL, singleplot = FALSE, pdffile = NULL, ...)
 }
 \arguments{
   \item{x}{mortalityFit object}
@@ -13,6 +13,9 @@ data they were fitted to (results in a grid of plots)}
 
   \item{Dx}{if TRUE, plot in terms of deaths; otherwise,
   use central death rates}
+
+  \item{singleplot}{if TRUE, plot all of the fit objects on
+  the same plot; otherwise, return a list of plots}
 
   \item{ncol}{if not NULL, the number of columns in the
   array of plots produced}

@@ -12,6 +12,11 @@ Description: mortfit is a package to accompany [article],
 License: GPL-2
 Depends:
     Rcpp (>= 0.9.4.1)
+Imports:
+    plyr,
+    ggplot2
+Suggests:
+    testthat
 LinkingTo: Rcpp
 LazyLoad: yes
 Collate:

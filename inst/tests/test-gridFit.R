@@ -46,7 +46,8 @@ for(mort.model in all.models) {
       this.fit <- try(mort.fit(mort.model,
                                ##folded.data,
                                sim.data,
-                               gridFit,
+                               gridSearchFit,
+                               M=10,
                                verbose=FALSE))
 
       expect_that(this.fit, is_a("mortalityFit"))
@@ -58,7 +59,7 @@ for(mort.model in all.models) {
         theta.hat <- this.fit@theta.hat
         est.ll <- this.fit@log.likelihood
       } else {
-        theta.hat <- rep(NA, mort.model@num.params)
+        theta.hat <- rep(NA, mort.model@num.param)
         est.ll <- NA
       }
 

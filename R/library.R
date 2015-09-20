@@ -257,7 +257,7 @@ mort.fit.cv <- function(model.obj,
   cv.err.qx <- list(rep(NA, num.folds))
 
   if(keep.folds.fits) {
-    folds.fits <- list(NA)
+    folds.fits <- list(rep(NA, num.folds))
   }
 
   for(this.fold in 1:num.folds) {
@@ -296,7 +296,7 @@ mort.fit.cv <- function(model.obj,
       folds.fits[[this.fold]] <- c(this.out,
                                    list(fold.fit=this.out,
                                         fold.eval.fit=oos.fit,
-                                        fold.err.Dx=cv.err.Dx[this.idx]
+                                        fold.err.Dx=cv.err.Dx[this.fold]
                                         ))
     }
 
@@ -329,6 +329,9 @@ mort.fit.cv <- function(model.obj,
                              "fitSummaryCV")
   uber.fit@fit.summary@cv.err.Dx <- cv.err.Dx
   uber.fit@fit.summary@cv.rmse.Dx <- sqrt(mean(unlist(cv.err.Dx)^2))
+  if (keep.folds.fits) {
+    uber.fit@fit.summary@fold.fits <- folds.fits
+  }
 
   return(uber.fit)
 
@@ -349,16 +352,16 @@ create.mortalityFits <- function( fits ) {
 
   ## first, double check that the datasets that were fitted
   ## to are all the same
-  ubertmp <- length(unique(laply(fits, function(x) {
-                                          paste(x@data@name)
-                                        })))
+  ubertmp <- length(unique(plyr::laply(fits, function(x) {
+                                               paste(x@data@name)
+                                             })))
   if (ubertmp !=1) {
     stop("Cannot make fits into a mortalityFits object. The models do not all appear to have been fitted to the same dataset.\n")
   }
 
   listoffits <- fits
-  names(listoffits) <- laply(fits,
-                             function(x) { x@name })
+  names(listoffits) <- plyr::laply(fits,
+                                   function(x) { x@name })
   
   ## then, create a new mortalityFits object to hold all of
   ## the fits in one place
@@ -508,12 +511,12 @@ plot.ll.prof.all <- function(fit,
 
     ## make a likelihood profile plot for each of these pairs,
     ## and return it
-    pairwise.plots <- alply(theta.pairs,2,
-                            function(pair) {
-                              return(plot.ll.prof(fit,theta.idx=pair,
-                                                  delta=delta,res=res,
-                                                  heatmap=heatmap))
-                            })
+    pairwise.plots <- plyr::alply(theta.pairs,2,
+                                  function(pair) {
+                                    return(plot.ll.prof(fit,theta.idx=pair,
+                                                        delta=delta,res=res,
+                                                        heatmap=heatmap))
+                                  })
 
     if(show) {
       do.call("grid.arrange", pairwise.plots)
@@ -824,28 +827,28 @@ grab.kt.data <- function(data,
                          tags)
 {
 
-  res <- laply(data,
-               function(x) {
+  res <- plyr::laply(data,
+                     function(x) {
 
-                 ## if this entry doesn't have any tags
-                 ## recorded, don't return it
-                 if (! is.null(x@tags)) {
+                       ## if this entry doesn't have any tags
+                       ## recorded, don't return it
+                       if (! is.null(x@tags)) {
 
-                   ## if this entry does have tags and
-                   ## all of the ones specified in the
-                   ## argument passed in match, then
-                   ## return it
-                   if(all(x@tags[names(tags)]==tags)) {
-                     return(TRUE)
+                         ## if this entry does have tags and
+                         ## all of the ones specified in the
+                         ## argument passed in match, then
+                         ## return it
+                         if(all(x@tags[names(tags)]==tags)) {
+                           return(TRUE)
 
-                   ## otherwise, don't return it...
-                   } else {
-                     return(FALSE)
-                   }
-                 } else {
-                   return(FALSE)
-                 }
-               })
+                         ## otherwise, don't return it...
+                         } else {
+                           return(FALSE)
+                         }
+                       } else {
+                         return(FALSE)
+                       }
+                     })
 
   return(data[res])
   

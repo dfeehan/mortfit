@@ -199,8 +199,7 @@ createBinomialModel <- function(haz.obj) {
     }
     
     this.obj <- new("mortalityModel",
-                    name=paste("Binomial", "-",
-                      haz.obj@name),
+                    name=paste("Binomial", "-", haz.obj@name),
                     loglik.fn=this.loglik,
                     num.param=haz.obj@num.param,
                     theta.default=haz.obj@theta.default,
@@ -491,4 +490,4 @@ binomial.models <- c(binomialWeibullModel,
 ##' @export
 all.models <- c(binomial.models, poisson.models)
 ##all.models <- c(binomial.models)
-names(all.models) <- unlist(llply(all.models, function(x) { x@name }))
+names(all.models) <- unlist(plyr::llply(all.models, function(x) { x@name }))

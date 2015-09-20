@@ -95,11 +95,11 @@ optim.fit <- function(model.obj,
   ## when we want to figure out whether or not this has converged
   ## NB: this requires the numDeriv() library
 
-  out <- try(start.gradient <- grad(func=model.obj@loglik.fn,
-                                    x=theta.init,,
-                                    Dx=data@data$Dx,
-                                    Nx=data@data$Nx,
-                                    ages=data@data$age))
+  out <- try(start.gradient <- numDeriv::grad(func=model.obj@loglik.fn,
+                                              x=theta.init,,
+                                              Dx=data@data$Dx,
+                                              Nx=data@data$Nx,
+                                              ages=data@data$age))
   if (class(out)=="try-error") {
     if(verbose) {
       cat("Error in computing gradient at starting values!\n")
@@ -132,18 +132,18 @@ optim.fit <- function(model.obj,
   ## more rigorous. Since our main focus isn't on estimates
   ## of the gradient or the Hessian, I'm using the 'simple'
   ## approach for now.
-  opt.gradient <- grad(func=model.obj@loglik.fn,
-                       x=op.out$par,
-                       Dx=data@data$Dx,
-                       Nx=data@data$Nx,
-                       ages=data@data$age,
-                       method="simple")
+  opt.gradient <- numDeriv::grad(func=model.obj@loglik.fn,
+                                 x=op.out$par,
+                                 Dx=data@data$Dx,
+                                 Nx=data@data$Nx,
+                                 ages=data@data$age,
+                                 method="simple")
 
-  opt.hessian <- hessian(func=model.obj@loglik.fn,
-                         x=op.out$par,
-                         Dx=data@data$Dx,
-                         Nx=data@data$Nx,
-                         ages=data@data$age)
+  opt.hessian <- numDeriv::hessian(func=model.obj@loglik.fn,
+                                   x=op.out$par,
+                                   Dx=data@data$Dx,
+                                   Nx=data@data$Nx,
+                                   ages=data@data$age)
 
   opt.eigenvalues <- as.numeric(NA)
   try(opt.eigenvalues <- eigen(opt.hessian)$values)

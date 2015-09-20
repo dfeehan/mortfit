@@ -194,6 +194,8 @@ plot.mortalityDataWithFit <- function(x,
 ##'  @param x mortalityFit object
 ##'  @param y not used
 ##'  @param Dx if TRUE, plot in terms of deaths; otherwise, use central death rates
+##'  @param singleplot if TRUE, plot all of the fit objects on the same plot; otherwise,
+##'                    return a list of plots
 ##'  @param ncol if not NULL, the number of columns in the array of plots produced
 ##'  @param pdffile the name of a .pdf file to save to (if NULL, plot is displayed to the screen)
 ##'  @param ... other args, which are passed on to the pdf device
@@ -202,15 +204,45 @@ plot.mortalityDataWithFits <- function(x,
                                        y=NULL,
                                        Dx=TRUE,
                                        ncol=NULL,
+                                       singleplot=FALSE,
                                        pdffile=NULL,
                                        ...) {
 
-  resplots <- llply(x@fits,
-                    function(x) {
-                      return(plot(x,Dx=Dx) + theme(legend.position="none"))
-                    })
-                    ##plot,
-                    ##Dx=Dx)
+  if(! singleplot) {
+      resplots <- plyr::llply(x@fits,
+                              function(x) {
+                                return(plot(x,Dx=Dx) + theme(legend.position="none"))
+                              })
+                        ##plot,
+                        ##Dx=Dx)
+  } else {
+
+      #stop("plot.mortalityDataWithFits for singleplot=TRUE not yet implemented!")
+      
+      #if(! Dx) {
+
+      #  dataplot <- plot(x@data,
+      #                   x@model@hazard,
+      #                   theta=x@theta.hat)
+
+      #} else {
+
+      #  obsDx <- x@data@data$Dx
+      #  obsNx <- x@data@data$Nx
+      #  fitDx <- x@fitted.values@fitted.Dx
+      #  ages <- x@fitted.values@age + x@fitted.values@age.offset
+
+      #  dataplot <- ggplot(data=data.frame(obsDx=obsDx,fitDx=fitDx,ages=ages,obsNx=obsNx)) +
+      #              geom_point(aes(x=ages,y=obsDx, size=obsNx),color="blue",pch=1) +
+      #              geom_line(aes(x=ages, y=fitDx),color="red") +
+      #              geom_point(aes(x=ages, y=fitDx),color="red",pch=3) +
+      #              xlab("age") + ylab("number of deaths") +
+      #              scale_size_area() +
+      #              ggtitle(x@name)
+        
+      #}
+
+  }
 
   ## NB: see help page for grid.arrange in the gridExtra library
   ##legGrob <- ggplotGrob(resplots[[1]] + opts(keep="legend_box"))
@@ -227,7 +259,11 @@ plot.mortalityDataWithFits <- function(x,
   ##uberplot <- do.call(grid.arrange,c(resplots,list(legend=legend,
   ##                                                 ncol=ncol)))
 
-  uberplot <- do.call(grid.arrange, c(resplots, list(ncol=ncol)))
+  if (! singleplot) {
+      uberplot <- do.call(grid.arrange, c(resplots, list(ncol=ncol)))
+  } else {
+      print(uberplot)
+  }
   
   if (! is.null(pdffile)) {
     dev.off()

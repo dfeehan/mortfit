@@ -12,8 +12,8 @@ setMethod("show",
           function(object) {
             cat("------------------------------------\n")
             cat("mortalityHazard object: ", object@name, "\n")
-            cat("          num.param : ", object@num.param, "\n")
-            cat("      theta.default : ", object@theta.default, "\n")            
+            cat("             num.param: ", object@num.param, "\n")
+            cat("         theta.default: ", object@theta.default, "\n")            
             cat("------------------------------------\n")            
           })
 
@@ -22,11 +22,11 @@ setMethod("show",
           function(object) {
             cat("------------------------------------\n")
             cat("mortalityData object:", object@name, "\n")
-            cat("   data has columns ", colnames(object@data), "\n")            
-            cat("   data has dim ", paste(dim(object@data)), "\n")
-            cat("   age offset is ", paste(object@age.offset), "\n")
+            cat("    data has columns: ", colnames(object@data), "\n")            
+            cat("        data has dim: ", paste(dim(object@data)), "\n")
+            cat("       age offset is: ", paste(object@age.offset), "\n")
             if (! is.null(object@tags)) {
-              cat("   tags are: ",
+              cat("            tags are: ",
                   paste(names(object@tags), object@tags,
                         sep="=", collapse="; "), "\n")
             }
@@ -38,9 +38,9 @@ setMethod("show",
           function(object) {
             cat("------------------------------------\n")
             cat("mortalityDataFolded object: ", object@name, "\n")
-            cat("   num.folds : ", object@num.folds, "\n")
-            cat("   data has columns ", colnames(object@data), "\n")
-            cat("   data has dim ", paste(dim(object@data)), "\n")
+            cat("                 num.folds: ", object@num.folds, "\n")
+            cat("          data has columns: ", colnames(object@data), "\n")
+            cat("              data has dim: ", paste(dim(object@data)), "\n")
             cat("------------------------------------\n")            
           })
 
@@ -49,6 +49,15 @@ setMethod("show",
           function(object) {
             cat("------------------------------------\n")
             cat("fitMethod object: ", object@name, "\n")
+            cat("------------------------------------\n")            
+          })
+
+setMethod("show",
+          "mortalityModel",
+          function(object) {
+            cat("------------------------------------\n")
+            cat("mortalityModel object: ", object@name, "\n")
+            cat("            num.param: ", object@num.param, "\n")
             cat("------------------------------------\n")            
           })
 

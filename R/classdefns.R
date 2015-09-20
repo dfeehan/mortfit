@@ -33,6 +33,7 @@ setClassUnion("functionOrNULL",
 ##'     \item{haz.to.prob.fn}{if not NULL a function which takes two arguments, a vector of parameter values and a vector of ages, and returns the value of \eqn{exp(-\int_{z}^{z+1} -\mu(x)dx)}, ie the result of converting the hazard to conditional probabilities of dying between ages z and z+1 for each age z.}##' 
 ##' }
 ##' @name mortalityHazard-class
+##' @aliases mortalityHazard
 ##' @rdname mortalityHazard-class
 ##' @exportClass mortalityHazard
 setClass("mortalityHazard",
@@ -469,8 +470,8 @@ as.data.frame.mortalityFits <- function(obj,
                                         order.by=NULL,
                                         ...) {
 
-  res <- ldply(obj@fits,
-               as.data.frame.mortalityFit)
+  res <- plyr::ldply(obj@fits,
+                     as.data.frame.mortalityFit)
 
   if(! is.null(order.by)) {
     res <- res[order(res[,order.by],...),]

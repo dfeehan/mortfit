@@ -21,8 +21,9 @@ LinkingTo: Rcpp
 LazyLoad: yes
 Collate:
     'classdefns.R'
-    'fitmethod-gridSearch.R'
+    'classdefns-showmethods.R'
     'fitmethod-optim.R'
+    'fitmethod-gridSearch.R'
     'fitmethod-combined.R'
     'fitmethods.R'
     'library.R'
@@ -38,6 +39,5 @@ Collate:
     'mortalityhazard-weibull.R'
     'mortalitymodels.R'
     'mortfit-help.R'
-    'rmnom.R'
-    'classdefns-showmethods.R'
     'plotmethods.R'
+    'rmnom.R'

@@ -5,7 +5,7 @@
 ## show methods, which are used for printing out contents
 ## of objects when 
 ##
-## @include classdefns.R
+##' @include classdefns.R
 
 setMethod("show",
           "mortalityHazard",

@@ -1,7 +1,7 @@
 **mortfit**
 -------
 
-Fit mortality hazard models, with special attention to old-age human mortality.
+Fit mortality hazard models, with special attention to humans at old ages.
 
 Package currently under development. Stay tuned.
 

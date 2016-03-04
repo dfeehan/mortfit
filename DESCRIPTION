@@ -27,6 +27,7 @@ Collate:
     'fitmethod-gridSearch.R'
     'fitmethod-optim.R'
     'fitmethod-combined.R'
+    'fitmethod-optim-multiplestarts.R'
     'fitmethods.R'
     'library.R'
     'mortalityhazard-consthaz.R'

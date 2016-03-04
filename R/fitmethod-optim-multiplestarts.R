@@ -81,7 +81,8 @@ optim.multiple.fit <- function(model.obj,
 
   best.fit.idx <- which(all.lls == max(all.lls))
 
-  best.fit <- fits[[best.fit.idx]]
+  ## we take the min in case there are multiple fits with the biggest log-likelihood
+  best.fit <- fits[[min(best.fit.idx)]]
 
   this.fit <- new("mortalityFitOptimMultiple",
                   name=paste(data@name, "-",

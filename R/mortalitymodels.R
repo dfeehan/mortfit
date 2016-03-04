@@ -53,7 +53,7 @@ createBinomialModel <- function(haz.obj) {
         return(NA)
       }
       
-      pi <- haz.obj@haz.to.prob.fn(haz.obj@haz.fn, theta, ages )
+      pi <- haz.obj@haz.to.prob.fn(theta, ages )
 
       res <- sum((Dx*log(pi) + (Nx-Dx)*log1p(-pi)))
 
@@ -80,7 +80,7 @@ createBinomialModel <- function(haz.obj) {
       age.offset <- min(age)
       age <-  age - min(age) + 1
 
-      pi <- haz.obj@haz.to.prob.fn(haz.obj@haz.fn, theta, age)
+      pi <- haz.obj@haz.to.prob.fn(theta, age)
 
       if( means ) {
         Dx <- Nx*pi
@@ -114,8 +114,7 @@ createBinomialModel <- function(haz.obj) {
                             Nx, age,
                             age.offset=79) {
 
-      fitted.qx <- haz.obj@haz.to.prob.fn(haz.obj@haz.fn,
-                                          theta,
+      fitted.qx <- haz.obj@haz.to.prob.fn(theta,
                                           age)
       fitted.Dx <- fitted.qx*Nx
 
@@ -239,10 +238,9 @@ createPoissonModel <- function(haz.obj) {
 
     ## TODO -- think this through again later,
     ## to be sure this is right...
-    mu <- haz.obj@haz.fn( theta,
-                          ages + 0.5 )
+    mu <- haz.obj@haz.fn(theta,
+                         ages + 0.5 )
 
-    ##mu <- haz.to.prob(haz.obj@haz.fn, theta, ages )
 
     lambda <- (Nx-0.5*Dx)*mu
 
@@ -307,8 +305,7 @@ createPoissonModel <- function(haz.obj) {
     ##mu <- haz.obj@haz.fn( theta,
     ##                      age )
 
-    fitted.qx <- haz.obj@haz.to.prob.fn(haz.obj@haz.fn,
-                                        theta,
+    fitted.qx <- haz.obj@haz.to.prob.fn(theta,
                                         age)
     fitted.Dx <- fitted.qx*Nx
 

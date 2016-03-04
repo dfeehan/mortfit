@@ -6,6 +6,7 @@
 ##' @docType package
 ##' @name mortfit
 ##' @aliases mortfit mortfit-package
-##' @import Rcpp graphics stats plyr ggplot2 numDeriv
+##' @import Rcpp graphics stats plyr ggplot2 numDeriv functional
+##' @importFrom Rcpp sourceCpp
 ##' @useDynLib mortfit
 NULL

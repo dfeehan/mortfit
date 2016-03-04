@@ -37,14 +37,14 @@ kannisto.haz.to.prob <- function(haz.fn, theta, z) {
 
 ## kannisto hazard fn implemented in c++
 kannisto.haz.fn.cpp <- function(theta, z) {
-  res <- .Call("mortalityhazard_kannisto_cpp", theta, z)
+  res <- .Call("mortalityhazard_kannisto_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
 ## kannisto hazard fn implemented in c++
 kannisto.haz.to.prob.cpp <- function(haz.fn, theta, z) {
   ## note that we don't need the first argument, haz.fn
-  res <- .Call("mortalityhazard_to_prob_kannisto_cpp", theta, z)
+  res <- .Call("mortalityhazard_to_prob_kannisto_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
@@ -71,7 +71,9 @@ kannisto.haz   <- new("mortalityHazard",
                                          control=list(parscale=c(.05, .09),
                                                       reltol=1e-10,
                                                       maxit=10000)),
-                      haz.fn=kannisto.haz.fn.cpp,
-                      haz.to.prob.fn=kannisto.haz.to.prob.cpp)
+                      haz.fn=mortalityhazard_kannisto_cpp,
+                      haz.to.prob.fn=mortalityhazard_to_prob_kannisto_cpp)
+                      #haz.fn=kannisto.haz.fn.cpp,
+                      #haz.to.prob.fn=kannisto.haz.to.prob.cpp)
                       ##haz.fn=kannisto.haz.fn,
                       ##haz.to.prob.fn=kannisto.haz.to.prob)

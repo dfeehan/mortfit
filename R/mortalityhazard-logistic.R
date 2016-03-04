@@ -49,17 +49,17 @@ logistic.haz.to.prob <- function(haz.fn, theta, z) {
 }
 
 ## logistic hazard fn implemented in c++
-logistic.haz.fn.cpp <- function(theta, z) {
-  res <- .Call("mortalityhazard_logistic_cpp", theta, z)
-  return(res)
-}
+#logistic.haz.fn.cpp <- function(theta, z) {
+#  res <- .Call("mortalityhazard_logistic_cpp", PACKAGE='mortfit', theta, z)
+#  return(res)
+#}
 
-## logistic hazard fn implemented in c++
-logistic.haz.to.prob.cpp <- function(haz.fn, theta, z) {
-  ## note that we don't need the first argument, haz.fn
-  res <- .Call("mortalityhazard_to_prob_logistic_cpp", theta, z)
-  return(res)
-}
+### logistic hazard fn implemented in c++
+#logistic.haz.to.prob.cpp <- function(haz.fn, theta, z) {
+#  ## note that we don't need the first argument, haz.fn
+#  res <- .Call("mortalityhazard_to_prob_logistic_cpp", PACKAGE='mortfit', theta, z)
+#  return(res)
+#}
 
 
 ## these starting values have been updated based on preliminary analysis
@@ -154,7 +154,9 @@ logistic.haz   <- new("mortalityHazard",
                                                       reltol=1e-10,
                                                       maxit=10000)),
                                                       ##trace=6)),                      
-                       haz.fn=logistic.haz.fn.cpp,
-                       haz.to.prob.fn=logistic.haz.to.prob.cpp)
+                       haz.fn=mortalityhazard_logistic_cpp,
+                       haz.to.prob.fn=mortalityhazard_to_prob_logistic_cpp)
+                       #haz.fn=logistic.haz.fn.cpp,
+                       #haz.to.prob.fn=logistic.haz.to.prob.cpp)
                        ##haz.fn=logistic.haz.fn,
                        ##haz.to.prob.fn=logistic.haz.to.prob)

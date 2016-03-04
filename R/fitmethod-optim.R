@@ -95,6 +95,8 @@ optim.fit <- function(model.obj,
   ## when we want to figure out whether or not this has converged
   ## NB: this requires the numDeriv() library
 
+  ###### THIS IS CRASHING
+
   out <- try(start.gradient <- numDeriv::grad(func=model.obj@loglik.fn,
                                               x=theta.init,,
                                               Dx=data@data$Dx,
@@ -107,9 +109,12 @@ optim.fit <- function(model.obj,
     ##browser()
   }
 
+  ## use the numerical gradient 
+  #num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn)
 
-  op.out <- optim( par=theta.init,
+  out <- try(op.out <- optim( par=theta.init,
                    fn=model.obj@loglik.fn,
+                   #gr=num_grad,
                    Dx=data@data$Dx,
                    Nx=data@data$Nx,
                    ages=data@data$age,
@@ -120,7 +125,14 @@ optim.fit <- function(model.obj,
                              model.obj@optim.default$control),
                     ## NB: doing the hessian using numDeriv
                    hessian=FALSE
-                   )
+                   ))
+
+  if (class(out)=="try-error") {
+    if(verbose) {
+      cat("Error in running optim!\n")
+    }
+    browser()
+  }
 
   if (op.out$convergence != 0) {
     stop("optimFit's optim.fit: optimization did not converge!\ncalled with ", model.obj@name, " - ", data@name, "\nstarting values: ", theta.init, "\n")

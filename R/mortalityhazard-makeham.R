@@ -33,14 +33,14 @@ mak.haz.to.prob <- function(haz.fn, theta, z) {
 
 ## mak hazard fn implemented in c++
 mak.haz.fn.cpp <- function(theta, z) {
-  res <- .Call("mortalityhazard_makeham_cpp", theta, z)
+  res <- .Call("mortalityhazard_makeham_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
 ## mak hazard fn implemented in c++
 mak.haz.to.prob.cpp <- function(haz.fn, theta, z) {
   ## note that we don't need the first argument, haz.fn
-  res <- .Call("mortalityhazard_to_prob_makeham_cpp", theta, z)
+  res <- .Call("mortalityhazard_to_prob_makeham_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
@@ -64,7 +64,9 @@ mak.haz   <- new("mortalityHazard",
                                     control=list(parscale=c(-2.93, 7.85e-02, log(1e-5)),##7.04e-06),
                                                  reltol=1e-10,
                                                  maxit=10000)),
-                 haz.fn=mak.haz.fn.cpp,
-                 haz.to.prob.fn=mak.haz.to.prob.cpp)
+                 haz.fn=mortalityhazard_makeham_cpp,
+                 haz.to.prob.fn=mortalityhazard_to_prob_makeham_cpp)
+                 #haz.fn=mak.haz.fn.cpp,
+                 #haz.to.prob.fn=mak.haz.to.prob.cpp)
                  ##haz.fn=mak.haz.fn,
                  ##haz.to.prob.fn=mak.haz.to.prob)

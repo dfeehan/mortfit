@@ -1,23 +1,25 @@
 /************************************************
  * rmnom.cpp
- * 
+ *
  * simple fn to take draws from
  * a multinomial distribution, given
  * the sample size and the probs of
  * each category
- * 
+ *
  * see "Writing a package that uses Rcpp"
  * by Edelbuettel and Francois, Sept 29 2011
- * 
+ *
  * dennis, dec 2011
  ************************************************/
 
-#include "rmnom.h"
+#include <Rcpp.h>
 
-RcppExport SEXP rmnom(SEXP n, SEXP p)
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+NumericVector rmnom(SEXP n, SEXP p)
 {
 
-  BEGIN_RCPP
   using namespace Rcpp;
 
   NumericVector xn(n);
@@ -25,7 +27,7 @@ RcppExport SEXP rmnom(SEXP n, SEXP p)
 
   int len_n = xn.size();
   int num_cat = xp.ncol();
-  
+
   int i, j, r;
   double thisp = 0;
   double cumsum = 0;
@@ -45,7 +47,7 @@ RcppExport SEXP rmnom(SEXP n, SEXP p)
    * loop through each of the draws to make
    */
   for(j=0; j < len_n; j++) {
-  
+
     /*
      * draw a category for each unit in the sample
      */
@@ -76,7 +78,6 @@ RcppExport SEXP rmnom(SEXP n, SEXP p)
 
   return(result);
 
-  END_RCPP
 }
 
 

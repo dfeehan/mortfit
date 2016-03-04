@@ -23,14 +23,14 @@ gomp.haz.to.prob <- function(haz.fn, theta, z) {
 
 ## gomp hazard fn implemented in c++
 gomp.haz.fn.cpp <- function(theta, z) {
-  res <- .Call("mortalityhazard_gompertz_cpp", theta, z)
+  res <- .Call("mortalityhazard_gompertz_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
 ## gomp hazard fn implemented in c++
 gomp.haz.to.prob.cpp <- function(haz.fn, theta, z) {
   ## note that we don't need the first argument, haz.fn
-  res <- .Call("mortalityhazard_to_prob_gompertz_cpp", theta, z)
+  res <- .Call("mortalityhazard_to_prob_gompertz_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
@@ -53,7 +53,9 @@ gomp.haz <- new("mortalityHazard",
                 optim.default=list(method="BFGS",
                                    control=list(parscale=c(-3, 0.08),
                                                 reltol=1e-10)),
-                haz.fn=gomp.haz.fn.cpp,
-                haz.to.prob.fn=gomp.haz.to.prob.cpp)
+                haz.fn=mortalityhazard_gompertz_cpp,
+                haz.to.prob.fn=mortalityhazard_to_prob_gompertz_cpp)
+                #haz.fn=gomp.haz.fn.cpp,
+                #haz.to.prob.fn=gomp.haz.to.prob.cpp)
                 ##haz.fn=gomp.haz.fn,
                 ##haz.to.prob.fn=gomp.haz.to.prob)

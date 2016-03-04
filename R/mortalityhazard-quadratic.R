@@ -123,14 +123,14 @@ quad.haz.to.prob <- function(haz.fn, theta, z) {
 
 ## quad hazard fn implemented in c++
 quad.haz.fn.cpp <- function(theta, z) {
-  res <- .Call("mortalityhazard_quadratic_cpp", theta, z)
+  res <- .Call("mortalityhazard_quadratic_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
 ## quad hazard fn implemented in c++
 quad.haz.to.prob.cpp <- function(haz.fn, theta, z) {
   ## note that we don't need the first argument, haz.fn
-  res <- .Call("mortalityhazard_to_prob_quadratic_cpp", theta, z)
+  res <- .Call("mortalityhazard_to_prob_quadratic_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
@@ -157,11 +157,13 @@ quad.haz <- new("mortalityHazard",
                 optim.default=list(method="BFGS",
                                    control=list(parscale=c(-3.04, .097, -8e-4),
                                                 reltol=1e-10)),
-                 haz.fn=quad.haz.fn.cpp,
+                haz.fn=mortalityhazard_quadratic_cpp,
+                haz.to.prob.fn=mortalityhazard_to_prob_quadratic_cpp)
+                 ##haz.fn=quad.haz.fn.cpp,
                  ##haz.to.prob.fn=quad.haz.to.prob.cpp)
                  ##haz.to.prob.fn=quad.haz.to.prob)
                  ##haz.fn=quad.haz.fn,
-                 haz.to.prob.fn=haz.to.prob)
+                 ##haz.to.prob.fn=haz.to.prob)
 
 
 

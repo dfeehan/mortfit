@@ -30,14 +30,14 @@ weibull.haz.to.prob <- function(haz.fn, theta, z) {
 
 ## weibull hazard fn implemented in c++
 weibull.haz.fn.cpp <- function(theta, z) {
-  res <- .Call("mortalityhazard_weibull_cpp", theta, z)
+  res <- .Call("mortalityhazard_weibull_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
 ## weibull hazard fn implemented in c++
 weibull.haz.to.prob.cpp <- function(haz.fn, theta, z) {
   ## note that we don't need the first argument, haz.fn
-  res <- .Call("mortalityhazard_to_prob_weibull_cpp", theta, z)
+  res <- .Call("mortalityhazard_to_prob_weibull_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
@@ -64,7 +64,9 @@ weibull.haz <- new("mortalityHazard",
                                                    ##parscale=c(0.03,
                                                    parscale=c(0.038,
                                                               0.487))),
-                   haz.fn=weibull.haz.fn.cpp,
-                   haz.to.prob.fn=weibull.haz.to.prob.cpp)
+                   haz.fn=mortalityhazard_weibull_cpp,
+                   haz.to.prob.fn=mortalityhazard_to_prob_weibull_cpp)
+                   #haz.fn=weibull.haz.fn.cpp,
+                   #haz.to.prob.fn=weibull.haz.to.prob.cpp)
                    ##haz.fn=weibull.haz.fn,
                    ##haz.to.prob.fn=weibull.haz.to.prob)

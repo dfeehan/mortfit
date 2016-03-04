@@ -1,37 +1,33 @@
 /************************************************
  * mortalityhazard-quadratic.cpp
- * 
- * 
- * 
+ *
+ *
+ *
  * see "Writing a package that uses Rcpp"
  * by Edelbuettel and Francois, Sept 29 2011
- * 
+ *
  * dennis, dec 2011
  ************************************************/
 
-#include <Rcpp.h>
 #include <complex>
+#include <Rcpp.h>
 
-RcppExport SEXP mortalityhazard_quadratic_cpp(SEXP theta, SEXP z)
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+NumericVector mortalityhazard_quadratic_cpp(NumericVector theta, NumericVector z)
 {
 
-  BEGIN_RCPP
+  int len = z.size();
 
-  using namespace Rcpp;
+  double alpha = theta[0];
+  double beta = theta[1];
+  double gamma = theta[2];
 
-  NumericVector xtheta(theta);
-  NumericVector xz(z);
-
-  int len = xz.size();
-
-  double alpha = xtheta[0];
-  double beta = xtheta[1];
-  double gamma = xtheta[2];
-  
   NumericVector res(len);
-  
+
   for(int i=0; i < len; i++) {
-    res[i] = exp(alpha + beta*xz[i] + gamma*xz[i]*xz[i]);
+    res[i] = exp(alpha + beta*z[i] + gamma*z[i]*z[i]);
   }
 
   bool anyNA = is_true( any( is_na(res) ) );
@@ -44,9 +40,7 @@ RcppExport SEXP mortalityhazard_quadratic_cpp(SEXP theta, SEXP z)
 
   return(res);
 
-  END_RCPP
 }
-
 
 std::complex<double> erfi_approx_nr1(std::complex<double> x)
 {
@@ -57,44 +51,39 @@ std::complex<double> erfi_approx_nr1(std::complex<double> x)
 
   std::complex<double> res (0.0, 0.0);
 
-  res = (173465337818777746628.0*expof1 - 161189343277473823463.0*sqrtofpi*erfiof1 + x*(-181236135883415078228.0*expof1 + 58207050515281020997.0*sqrtofpi*erfiof1 + 
-x*(-32990023275939643620.0*expof1 + 70448356034529178041.0*sqrtofpi*erfiof1 + 
-x*(53037366273114757940.0*expof1 - 37842691311251513855.0*sqrtofpi*erfiof1 + 
-x*(-7666360342517050580.0*expof1 - 5516314131408582425.0*sqrtofpi*erfiof1 + 
-x*(-6665334075150129708.0*expof1 + 7528886304748135803.0*sqrtofpi*erfiof1 + 
-x*(2371517339152075268.0*expof1 - 1823214457143623537.0*sqrtofpi*erfiof1 + 
+  res = (173465337818777746628.0*expof1 - 161189343277473823463.0*sqrtofpi*erfiof1 + x*(-181236135883415078228.0*expof1 + 58207050515281020997.0*sqrtofpi*erfiof1 +
+x*(-32990023275939643620.0*expof1 + 70448356034529178041.0*sqrtofpi*erfiof1 +
+x*(53037366273114757940.0*expof1 - 37842691311251513855.0*sqrtofpi*erfiof1 +
+x*(-7666360342517050580.0*expof1 - 5516314131408582425.0*sqrtofpi*erfiof1 +
+x*(-6665334075150129708.0*expof1 + 7528886304748135803.0*sqrtofpi*erfiof1 +
+x*(2371517339152075268.0*expof1 - 1823214457143623537.0*sqrtofpi*erfiof1 +
 x*(-316367854022677700.0*expof1 + 146437170211591039.0*sqrtofpi*erfiof1))))))))/
-   (-161189343277473823463.0*sqrtofpi + 
-     x*(58207050515281020997.0*sqrtofpi + 
-        x*(70448356034529178041.0*sqrtofpi + 
-           x*(-37842691311251513855.0*sqrtofpi + 
-              x*(-5516314131408582425.0*sqrtofpi + 
-                 x*(7528886304748135803.0*sqrtofpi + 
-                    x*(-1823214457143623537.0*sqrtofpi + 
+   (-161189343277473823463.0*sqrtofpi +
+     x*(58207050515281020997.0*sqrtofpi +
+        x*(70448356034529178041.0*sqrtofpi +
+           x*(-37842691311251513855.0*sqrtofpi +
+              x*(-5516314131408582425.0*sqrtofpi +
+                 x*(7528886304748135803.0*sqrtofpi +
+                    x*(-1823214457143623537.0*sqrtofpi +
                        146437170211591039.0*sqrtofpi*x)))))));
 
   return(res);
 
 }
 
-RcppExport SEXP mortalityhazard_to_prob_quadratic_cpp(SEXP theta, SEXP z)
+// [[Rcpp::export]]
+NumericVector mortalityhazard_to_prob_quadratic_cpp(NumericVector theta, NumericVector z)
 {
-  BEGIN_RCPP
 
-  using namespace Rcpp;
-
-  NumericVector xtheta(theta);
-  NumericVector xz(z);
-
-  int len = xz.size();
+  int len = z.size();
   NumericVector res(len);
 
   const double pi = 3.1415926535897;
 
-  double alpha = xtheta[0];
-  double beta = xtheta[1];
+  double alpha = theta[0];
+  double beta = theta[1];
 
-  std::complex<double> gamma = xtheta[2];
+  std::complex<double> gamma = theta[2];
   std::complex<double> sqrt_gamma = sqrt(gamma);
 
   std::complex<double> k0;
@@ -112,9 +101,9 @@ RcppExport SEXP mortalityhazard_to_prob_quadratic_cpp(SEXP theta, SEXP z)
   std::complex<double> temp;
 
   for(int i=0; i < len; i++) {
-    temp = (k0/(2.0*sqrt_gamma)) * 
-      (erfi_approx_nr1((beta + (2.0*gamma*(xz[i]+1)))/(2.0*sqrt_gamma)) -
-       erfi_approx_nr1((beta + (2.0*gamma*xz[i]))/(2.0*sqrt_gamma)));
+    temp = (k0/(2.0*sqrt_gamma)) *
+      (erfi_approx_nr1((beta + (2.0*gamma*(z[i]+1)))/(2.0*sqrt_gamma)) -
+       erfi_approx_nr1((beta + (2.0*gamma*z[i]))/(2.0*sqrt_gamma)));
 
     // maddeningly, this:
     // 1.0 - exp(-1.0*real(temp))
@@ -125,7 +114,6 @@ RcppExport SEXP mortalityhazard_to_prob_quadratic_cpp(SEXP theta, SEXP z)
 
   return(res);
 
-  END_RCPP
 }
 
 
@@ -146,7 +134,7 @@ Rcomplex complex_exp(Rcomplex arg)
 
 // these are
 // based on Rcomplex operators from Rcpp package;
-Rcomplex operator*( const Rcomplex& lhs, double rhs){          
+Rcomplex operator*( const Rcomplex& lhs, double rhs){
   Rcomplex y ;
   y.r = lhs.r * rhs ;
   return y ;
@@ -156,7 +144,7 @@ Rcomplex operator*( double lhs, const Rcomplex& rhs){
   return(rhs*lhs);
 }
 
-Rcomplex operator+( const Rcomplex& lhs, double rhs){          
+Rcomplex operator+( const Rcomplex& lhs, double rhs){
   Rcomplex y ;
   y.r = lhs.r + rhs ;
   return y ;
@@ -190,20 +178,20 @@ Rcomplex OLDerfi_approx_nr1(Rcomplex x)
   Rcomplex res;
   res.r = res.i = 0.0;
 
-  res = (173465337818777746628.0*expof1 - 161189343277473823463.0*sqrtofpi*erfiof1 + x*(-181236135883415078228.0*expof1 + 58207050515281020997.0*sqrtofpi*erfiof1 + 
-x*(-32990023275939643620.0*expof1 + 70448356034529178041.0*sqrtofpi*erfiof1 + 
-x*(53037366273114757940.0*expof1 - 37842691311251513855.0*sqrtofpi*erfiof1 + 
-x*(-7666360342517050580.0*expof1 - 5516314131408582425.0*sqrtofpi*erfiof1 + 
-x*(-6665334075150129708.0*expof1 + 7528886304748135803.0*sqrtofpi*erfiof1 + 
-x*(2371517339152075268.0*expof1 - 1823214457143623537.0*sqrtofpi*erfiof1 + 
+  res = (173465337818777746628.0*expof1 - 161189343277473823463.0*sqrtofpi*erfiof1 + x*(-181236135883415078228.0*expof1 + 58207050515281020997.0*sqrtofpi*erfiof1 +
+x*(-32990023275939643620.0*expof1 + 70448356034529178041.0*sqrtofpi*erfiof1 +
+x*(53037366273114757940.0*expof1 - 37842691311251513855.0*sqrtofpi*erfiof1 +
+x*(-7666360342517050580.0*expof1 - 5516314131408582425.0*sqrtofpi*erfiof1 +
+x*(-6665334075150129708.0*expof1 + 7528886304748135803.0*sqrtofpi*erfiof1 +
+x*(2371517339152075268.0*expof1 - 1823214457143623537.0*sqrtofpi*erfiof1 +
 x*(-316367854022677700.0*expof1 + 146437170211591039.0*sqrtofpi*erfiof1))))))))/
-   (-161189343277473823463.0*sqrtofpi + 
-     x*(58207050515281020997.0*sqrtofpi + 
-        x*(70448356034529178041.0*sqrtofpi + 
-           x*(-37842691311251513855.0*sqrtofpi + 
-              x*(-5516314131408582425.0*sqrtofpi + 
-                 x*(7528886304748135803.0*sqrtofpi + 
-                    x*(-1823214457143623537.0*sqrtofpi + 
+   (-161189343277473823463.0*sqrtofpi +
+     x*(58207050515281020997.0*sqrtofpi +
+        x*(70448356034529178041.0*sqrtofpi +
+           x*(-37842691311251513855.0*sqrtofpi +
+              x*(-5516314131408582425.0*sqrtofpi +
+                 x*(7528886304748135803.0*sqrtofpi +
+                    x*(-1823214457143623537.0*sqrtofpi +
                        146437170211591039.0*sqrtofpi*x)))))));
 
   return(res);
@@ -249,7 +237,7 @@ RcppExport SEXP OLDmortalityhazard_to_prob_quadratic_cpp(SEXP theta, SEXP z)
   Rcomplex temp;
 
   for(int i=0; i < len; i++) {
-    temp = (k0/(2*sqrt_gamma)) * 
+    temp = (k0/(2*sqrt_gamma)) *
       (erfi_approx_nr1((beta + (2*gamma*(xz[i]+1)))/(2*sqrt_gamma)) -
        erfi_approx_nr1((beta + (2*gamma*xz[i]))/(2*sqrt_gamma)));
 

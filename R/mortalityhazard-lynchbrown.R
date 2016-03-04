@@ -51,14 +51,14 @@ lb.haz.to.prob <- function(haz.fn, theta, z) {
 
 ## lb hazard fn implemented in c++
 lb.haz.fn.cpp <- function(theta, z) {
-  res <- .Call("mortalityhazard_lb_cpp", theta, z)
+  res <- .Call("mortalityhazard_lb_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
 ## lb hazard fn implemented in c++
 lb.haz.to.prob.cpp <- function(haz.fn, theta, z) {
   ## note that we don't need the first argument, haz.fn
-  res <- .Call("mortalityhazard_to_prob_lb_cpp", theta, z)
+  res <- .Call("mortalityhazard_to_prob_lb_cpp", PACKAGE='mortfit', theta, z)
   return(res)
 }
 
@@ -162,7 +162,9 @@ lb.haz   <- new("mortalityHazard",
                                    #                        3.4),
                                                 reltol=1e-10,
                                                 maxit=10000)),
+                haz.fn=mortalityhazard_lb_cpp,
+                haz.to.prob.fn=mortalityhazard_to_prob_lb_cpp)
                 ##haz.fn=lb.haz.fn.cpp,
                 ##haz.to.prob.fn=lb.haz.to.prob.cpp)
-                haz.fn=lb.haz.fn,
-                haz.to.prob.fn=lb.haz.to.prob)
+                #haz.fn=lb.haz.fn,
+                #haz.to.prob.fn=lb.haz.to.prob)

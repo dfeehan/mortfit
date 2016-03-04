@@ -14,16 +14,18 @@ Depends:
     Rcpp (>= 0.9.4.1)
 Imports:
     plyr,
-    ggplot2
+    ggplot2,
+    Rcpp
 Suggests:
     testthat
 LinkingTo: Rcpp
 LazyLoad: yes
 Collate:
+    'RcppExports.R'
     'classdefns.R'
     'classdefns-showmethods.R'
-    'fitmethod-optim.R'
     'fitmethod-gridSearch.R'
+    'fitmethod-optim.R'
     'fitmethod-combined.R'
     'fitmethods.R'
     'library.R'
@@ -41,3 +43,4 @@ Collate:
     'mortfit-help.R'
     'plotmethods.R'
     'rmnom.R'
+RoxygenNote: 5.0.1

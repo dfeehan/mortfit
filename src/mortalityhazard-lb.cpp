@@ -1,36 +1,33 @@
 /************************************************
  * mortalityhazard-lb.cpp
- * 
- * 
- * 
+ *
+ *
+ *
  * see "Writing a package that uses Rcpp"
  * by Edelbuettel and Francois, Sept 29 2011
- * 
+ *
  * dennis, dec 2011
  ************************************************/
 
 #include <Rcpp.h>
 
-RcppExport SEXP mortalityhazard_lb_cpp(SEXP theta, SEXP z)
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+NumericVector mortalityhazard_lb_cpp(NumericVector theta, NumericVector z)
 {
-  BEGIN_RCPP
 
-  using namespace Rcpp;
-
-  NumericVector xtheta(theta);
-  NumericVector xz(z);
-
-  int len = xz.size();
+  int len = z.size();
   NumericVector res(len);
 
-  double alpha = exp(xtheta[0]);
-  double beta = exp(xtheta[1]);
-  double gamma = exp(xtheta[2]);
-  double delta = exp(xtheta[3]);
+  double alpha = exp(theta[0]);
+  double beta = exp(theta[1]);
+  double gamma = exp(theta[2]);
+  double delta = exp(theta[3]);
 
   for(int i=0; i < len; i++) {
 
-    res[i] = alpha + beta*atan(gamma*(xz[i]-delta));
+    res[i] = alpha + beta*atan(gamma*(z[i]-delta));
 
     if (res[i] < 0) {
       res[i] = NA_INTEGER;
@@ -39,25 +36,19 @@ RcppExport SEXP mortalityhazard_lb_cpp(SEXP theta, SEXP z)
 
   return(res);
 
-  END_RCPP
 }
 
-RcppExport SEXP mortalityhazard_to_prob_lb_cpp(SEXP theta, SEXP z)
+// [[Rcpp::export]]
+NumericVector mortalityhazard_to_prob_lb_cpp(NumericVector theta, NumericVector z)
 {
 
-  BEGIN_RCPP
-  using namespace Rcpp;
-
-  NumericVector xtheta(theta);
-  NumericVector xz(z);
-
-  int len = xz.size();
+  int len = z.size();
   NumericVector res(len);
 
-  double alpha = exp(xtheta[0]);
-  double beta = exp(xtheta[1]);
-  double gamma = exp(xtheta[2]);
-  double delta = exp(xtheta[3]);
+  double alpha = exp(theta[0]);
+  double beta = exp(theta[1]);
+  double gamma = exp(theta[2]);
+  double delta = exp(theta[3]);
 
   double res1 = alpha;
   double res2 = (1/(2*gamma))*beta;
@@ -69,10 +60,10 @@ RcppExport SEXP mortalityhazard_to_prob_lb_cpp(SEXP theta, SEXP z)
 
   for(int i=0; i < len; i++) {
 
-    res3 = 2*gamma*(xz[i]-delta)*atan(gamma*(delta-xz[i]));
-    res4 = 2*gamma*(delta-xz[i]-1)*atan(gamma*(delta-xz[i]-1));
-    res5 = log1p(pow(gamma,2)*(pow(delta-xz[i],2)));
-    res6 = log1p(pow(gamma,2)*(pow(delta-xz[i]-1,2)));
+    res3 = 2*gamma*(z[i]-delta)*atan(gamma*(delta-z[i]));
+    res4 = 2*gamma*(delta-z[i]-1)*atan(gamma*(delta-z[i]-1));
+    res5 = log1p(pow(gamma,2)*(pow(delta-z[i],2)));
+    res6 = log1p(pow(gamma,2)*(pow(delta-z[i]-1,2)));
 
     temp = res1 + res2*(res3 + res4 + res5 - res6);
 
@@ -81,7 +72,6 @@ RcppExport SEXP mortalityhazard_to_prob_lb_cpp(SEXP theta, SEXP z)
 
   return(res);
 
-  END_RCPP
 }
 
 

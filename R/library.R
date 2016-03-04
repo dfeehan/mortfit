@@ -153,6 +153,7 @@ mort.fit <- function(model.obj,
                      method,
                      verbose=TRUE,
                      ignore.folded=FALSE,
+                     random.start=FALSE,
                      ...)
 {
 
@@ -178,6 +179,7 @@ mort.fit <- function(model.obj,
   }
 
   this.fit <- method@fit(model.obj, data, verbose=verbose,
+                         random.start=random.start,
                          ignore.folded=ignore.folded, ...)
 
   if(! is(this.fit, "mortalityFit")) {
@@ -237,6 +239,7 @@ mort.fit.cv <- function(model.obj,
                         data,
                         method,
                         verbose=TRUE,
+                        random.start=FALSE,
                         keep.folds.fits=FALSE,
                         ...)
 {
@@ -276,6 +279,7 @@ mort.fit.cv <- function(model.obj,
                              fit.data,
                              method,
                              verbose=verbose,
+                             random.start=random.start,
                              ...))
 
     ## computed predicted values for the held out data

@@ -95,8 +95,6 @@ optim.fit <- function(model.obj,
   ## when we want to figure out whether or not this has converged
   ## NB: this requires the numDeriv() library
 
-  ###### THIS IS CRASHING
-
   out <- try(start.gradient <- numDeriv::grad(func=model.obj@loglik.fn,
                                               x=theta.init,,
                                               Dx=data@data$Dx,
@@ -110,11 +108,11 @@ optim.fit <- function(model.obj,
   }
 
   ## use the numerical gradient 
-  #num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn)
+  num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn)
 
   out <- try(op.out <- optim( par=theta.init,
                    fn=model.obj@loglik.fn,
-                   #gr=num_grad,
+                   gr=num_grad,
                    Dx=data@data$Dx,
                    Nx=data@data$Nx,
                    ages=data@data$age,

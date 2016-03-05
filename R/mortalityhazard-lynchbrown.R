@@ -83,16 +83,15 @@ lb.haz.to.prob.cpp <- function(haz.fn, theta, z) {
 lb.haz   <- new("mortalityHazard",
                 name="Lynch-Brown",
                 num.param=4L,
-                theta.default=c(-1.65, -1.485, -2.23, 16),
-                theta.range=list(c(-1.57, -1.25),
+                theta.default=c(-1.57, -1.485, -2.23, 16),
+                ## NB: these are the ranges that random thetas
+                ##     are drawn from; they are not typical ranges
+                ##     but rather safe starting values
+                theta.range=list(c(-.1, 1.57),
                                  c(-1.53, -1.43),
                                  c(-2.23, -2.17),
-                                 c(10, 22)),
-                #theta.default=c(-1.65, 0.15, 0.08, 17.69),
-                #theta.range=list(c(-1.98, -1.25),
-                #                 c(0.09, 0.27),
-                #                 c(0.043, 0.13),
-                #                 c(10.8, 21.7)),
+                                 c(-5, 22)),
+
                 theta.start.fn=function(data.obj) {
                   ## choose starting values by getting b from
                   ## a regression...
@@ -124,6 +123,7 @@ lb.haz   <- new("mortalityHazard",
                   if(age.mid.idx==length(dat$age)) {
                     age.mid.idx <- age.mid.idx-1
                   }
+
                   gamma <- (fv[age.mid.idx-1]+fv[age.mid.idx+1])/
                            (dat$age[age.mid.idx+1]-dat$age[age.mid.idx-1])
 
@@ -145,26 +145,30 @@ lb.haz   <- new("mortalityHazard",
                   etmp <- c(beta,gamma,delta)
                   rawval <- etmp[1]*atan(etmp[2]*(1-etmp[3]))
 
-                  if (rawval > 0) {
-                    alpha <- mid
-                  } else {
-                    alpha <- -1*rawval + crude[1]
-                  }
+                  #if (rawval > 0) {
+                  #  alpha <- mid
+                  #} else {
+                  #  alpha <- -1*rawval + crude[1]
+                  #}
+
+                  ## this is lim x -> -Inf of arctan(x); since we want
+                  ## hazards to be strictly positive, alpha >= 1.57
+                  ## means that the whole
+                  ##alpha <- 1.57
+                  ##alpha <- .25
+
+                  alpha <- -1*rawval + .1
                   
-                  return(log(c(alpha,beta,gamma,delta)))
+                  return(c(alpha,log(beta),log(gamma),delta))
                   
                 },                
                 optim.default=list(method="BFGS",
-                                   control=list(parscale=c(-1.65, -1.485, -2.23, 16),
-                                   #control=list(parscale=c(-.44,
-                                   #                        -.70,
-                                   #                        -2.5,
-                                   #                        3.4),
+                                   control=list(parscale=c(.0001, 
+                                                           .0001, 
+                                                           .0001, 
+                                                           .0001),
                                                 reltol=1e-10,
                                                 maxit=10000)),
                 haz.fn=mortalityhazard_lb_cpp,
                 haz.to.prob.fn=mortalityhazard_to_prob_lb_cpp)
-                ##haz.fn=lb.haz.fn.cpp,
-                ##haz.to.prob.fn=lb.haz.to.prob.cpp)
-                #haz.fn=lb.haz.fn,
-                #haz.to.prob.fn=lb.haz.to.prob)
+

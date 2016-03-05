@@ -4,7 +4,7 @@
 \alias{compare.fits.mortalityFits}
 \title{compare.fits.mortalityFits}
 \usage{
-\method{compare}{fits.mortalityFits}(mf, ...)
+compare.fits.mortalityFits(mf, ...)
 }
 \arguments{
 \item{mf}{a data frame with the fit results, as produced

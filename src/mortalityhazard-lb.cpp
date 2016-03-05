@@ -20,18 +20,25 @@ NumericVector mortalityhazard_lb_cpp(NumericVector theta, NumericVector z)
   int len = z.size();
   NumericVector res(len);
 
-  double alpha = exp(theta[0]);
+  double alpha = theta[0];
   double beta = exp(theta[1]);
   double gamma = exp(theta[2]);
-  double delta = exp(theta[3]);
+  double delta = theta[3];
+
+  //Rprintf("alpha = %f; ", alpha);
+  //Rprintf("beta = %f; ", beta);
+  //Rprintf("gamma = %f; ", gamma);
+  //Rprintf("delta = %f\n", delta);
 
   for(int i=0; i < len; i++) {
 
     res[i] = alpha + beta*atan(gamma*(z[i]-delta));
 
     if (res[i] < 0) {
-      res[i] = NA_INTEGER;
+      //res[i] = NA_INTEGER;
+      res[i] = R_NegInf;
     }
+    //Rprintf("res[%d] = %f\n", i, res[i]);
   }
 
   return(res);
@@ -45,10 +52,10 @@ NumericVector mortalityhazard_to_prob_lb_cpp(NumericVector theta, NumericVector 
   int len = z.size();
   NumericVector res(len);
 
-  double alpha = exp(theta[0]);
+  double alpha = theta[0];
   double beta = exp(theta[1]);
   double gamma = exp(theta[2]);
-  double delta = exp(theta[3]);
+  double delta = theta[3];
 
   double res1 = alpha;
   double res2 = (1/(2*gamma))*beta;
@@ -68,6 +75,7 @@ NumericVector mortalityhazard_to_prob_lb_cpp(NumericVector theta, NumericVector 
     temp = res1 + res2*(res3 + res4 + res5 - res6);
 
     res[i] = 1 - exp(-1*temp);
+
   }
 
   return(res);

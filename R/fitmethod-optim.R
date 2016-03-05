@@ -55,17 +55,31 @@ optim.fit <- function(model.obj,
 
        if (! is.null(model.obj@theta.range)) {
 
-          if(verbose) {
-            cat("randomly drawing starting values...\n")
+
+          testhaz <- rep(0, length(data@data$age))
+          numdraw <- 1
+
+          ## draw random starting values; keep doing this until the initial
+          ## hazards are all positive (for some hazards, like lynch-brown, 
+          ## it's pretty easy to get random starting params that produce negative hazards)
+          while (! all(testhaz > 0)) {
+
+              stopifnot(numdraw <= 20, "Failed to get starting values after 20 tries.")
+
+              if(verbose) {
+                cat("randomly drawing starting values ", numdraw, "...\n")
+                numdraw <- numdraw + 1
+              }
+              theta.init <- laply(model.obj@theta.range,
+                                  function(tr) {
+                                    if (tr[1] < tr[2]) {
+                                      return(runif(1, min=tr[1], max=tr[2]))
+                                    } else {
+                                      return(runif(1, min=tr[2], max=tr[1]))
+                                    }
+                                  })
+              testhaz <- model.obj@hazard@haz.fn(theta.init, data@data$age)
           }
-          theta.init <- laply(model.obj@theta.range,
-                              function(tr) {
-                                if (tr[1] < tr[2]) {
-                                  return(runif(1, min=tr[1], max=tr[2]))
-                                } else {
-                                  return(runif(1, min=tr[2], max=tr[1]))
-                                }
-                              })
         } else {
           if(verbose) {
             cat("no parameter ranges for this model, using defaults (not random).\n")
@@ -96,7 +110,7 @@ optim.fit <- function(model.obj,
   ## NB: this requires the numDeriv() library
 
   out <- try(start.gradient <- numDeriv::grad(func=model.obj@loglik.fn,
-                                              x=theta.init,,
+                                              x=theta.init,
                                               Dx=data@data$Dx,
                                               Nx=data@data$Nx,
                                               ages=data@data$age))
@@ -104,13 +118,13 @@ optim.fit <- function(model.obj,
     if(verbose) {
       cat("Error in computing gradient at starting values!\n")
     }
-    ##browser()
+    #browser()
   }
 
   ## use the numerical gradient 
   num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn)
 
-  out <- try(op.out <- optim( par=theta.init,
+  out <- try(op.out <- optim(par=theta.init,
                    fn=model.obj@loglik.fn,
                    gr=num_grad,
                    Dx=data@data$Dx,

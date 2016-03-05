@@ -15,7 +15,8 @@ Depends:
 Imports:
     plyr,
     ggplot2,
-    Rcpp
+    Rcpp,
+    functional
 Suggests:
     testthat
 LinkingTo: Rcpp

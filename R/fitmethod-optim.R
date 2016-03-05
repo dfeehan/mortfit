@@ -64,12 +64,15 @@ optim.fit <- function(model.obj,
           ## it's pretty easy to get random starting params that produce negative hazards)
           while (! all(testhaz > 0)) {
 
-              stopifnot(numdraw <= 20, "Failed to get starting values after 20 tries.")
+              if(numdraw > 50) {
+                  stop("Failed to get starting values after 50 tries.")
+              }
 
               if(verbose) {
                 cat("randomly drawing starting values ", numdraw, "...\n")
-                numdraw <- numdraw + 1
               }
+              numdraw <- numdraw + 1
+
               theta.init <- laply(model.obj@theta.range,
                                   function(tr) {
                                     if (tr[1] < tr[2]) {

@@ -5,7 +5,7 @@
 \title{mort.fit}
 \usage{
 mort.fit(model.obj, data, method, verbose = TRUE, ignore.folded = FALSE,
-  ...)
+  random.start = FALSE, ...)
 }
 \arguments{
 \item{model.obj}{a mortalityModel object with

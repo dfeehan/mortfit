@@ -5,7 +5,7 @@
 \title{optim.multiple.fit}
 \usage{
 optim.multiple.fit(model.obj, data, M = 5, verbose = TRUE,
-  ignore.folded = FALSE, ...)
+  ignore.folded = FALSE, random.start = TRUE, ...)
 }
 \arguments{
 \item{model.obj}{a mortalityModel object}

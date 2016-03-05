@@ -4,7 +4,7 @@
 \alias{mort.fit.cv}
 \title{mort.fit.cv}
 \usage{
-mort.fit.cv(model.obj, data, method, verbose = TRUE,
+mort.fit.cv(model.obj, data, method, verbose = TRUE, random.start = FALSE,
   keep.folds.fits = FALSE, ...)
 }
 \arguments{

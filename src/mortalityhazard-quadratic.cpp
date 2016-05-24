@@ -100,6 +100,7 @@ NumericVector mortalityhazard_to_prob_quadratic_cpp(NumericVector theta, Numeric
 
   std::complex<double> temp;
 
+  Rprintf("log-quadratic pis:\n");
   for(int i=0; i < len; i++) {
     temp = (k0/(2.0*sqrt_gamma)) *
       (erfi_approx_nr1((beta + (2.0*gamma*(z[i]+1)))/(2.0*sqrt_gamma)) -
@@ -110,7 +111,10 @@ NumericVector mortalityhazard_to_prob_quadratic_cpp(NumericVector theta, Numeric
     // did *not* work!
     res[i] = real(1.0 - exp(-1.0* temp));
 
+    Rprintf("%f / ", res[i]);
+
   }
+  Rprintf("\n");
 
   return(res);
 

@@ -116,16 +116,18 @@ optim.fit <- function(model.obj,
                                               x=theta.init,
                                               Dx=data@data$Dx,
                                               Nx=data@data$Nx,
-                                              ages=data@data$age))
+                                              ages=data@data$age,
+                                              method="simple"))
   if (class(out)=="try-error") {
     if(verbose) {
       cat("Error in computing gradient at starting values!\n")
+      cat("theta = ", paste(theta.init, "\n"))
     }
-    #browser()
+    browser()
   }
 
   ## use the numerical gradient 
-  num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn)
+  num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn, method="simple")
 
   out <- try(op.out <- optim(par=theta.init,
                    fn=model.obj@loglik.fn,
@@ -146,7 +148,7 @@ optim.fit <- function(model.obj,
     if(verbose) {
       cat("Error in running optim!\n")
     }
-    #browser()
+    browser()
   }
 
   if (op.out$convergence != 0) {

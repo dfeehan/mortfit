@@ -123,7 +123,7 @@ optim.fit <- function(model.obj,
       cat("Error in computing gradient at starting values!\n")
       cat("theta = ", paste(theta.init, "\n"))
     }
-    browser()
+    #browser()
   }
 
   ## use the numerical gradient 
@@ -149,7 +149,7 @@ optim.fit <- function(model.obj,
     if(verbose) {
       cat("Error in running optim!\n")
     }
-    browser()
+    #browser()
   }
 
   if (op.out$convergence != 0) {

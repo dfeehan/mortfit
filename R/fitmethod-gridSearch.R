@@ -180,7 +180,7 @@ optimize.grid <- function(grid.vals,
       ## to avoid looping forever, be sure we haven't exceeded the (pre-specified)
       ## maximum number of possible iterations
       if (itnum > maxit) {
-        browser()
+        #browser()
         stop("reached maximum possible number of iterations without finding a solution.\n")
       }
 

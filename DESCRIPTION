@@ -19,8 +19,9 @@ Imports:
     functional
 Suggests:
     testthat
-LinkingTo: Rcpp
+LinkingTo: Rcpp, RcppFaddeeva
 LazyLoad: yes
+RoxygenNote: 5.0.1
 Collate:
     'RcppExports.R'
     'classdefns.R'
@@ -45,4 +46,3 @@ Collate:
     'mortfit-help.R'
     'plotmethods.R'
     'rmnom.R'
-RoxygenNote: 5.0.1

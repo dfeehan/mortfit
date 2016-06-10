@@ -15,5 +15,5 @@ consthaz.haz <- new("mortalityHazard",
                     optim.default=list(method="BFGS",
                                        control=list(reltol=1e-10)),
                     haz.fn=consthaz.haz.fn,
-                    haz.to.prob.fn=Curry(haz.to.prob,
-                                         haz.fn=consthaz.haz.fn))
+                    haz.to.prob.fn=functional::Curry(haz.to.prob,
+                                                     haz.fn=consthaz.haz.fn))

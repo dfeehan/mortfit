@@ -128,7 +128,7 @@ optim.fit <- function(model.obj,
 
   ## use the numerical gradient 
   #num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn, method="simple")
-  num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn, method="Richardson")
+  num_grad <- functional::Curry(numDeriv::grad, func=model.obj@loglik.fn, method="Richardson")
 
   out <- try(op.out <- optim(par=theta.init,
                    fn=model.obj@loglik.fn,

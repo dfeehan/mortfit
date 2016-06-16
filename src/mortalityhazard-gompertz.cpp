@@ -40,11 +40,20 @@ NumericVector mortalityhazard_to_prob_gompertz_cpp(NumericVector theta, NumericV
 
   double alpha = exp(theta[0]);
   double beta = theta[1];
-  double temp = 0.0;
+  double temp1 = 0.0, temp2=0.0;
+
+  /*
+   * we want
+   *     1 - exp(-(alpha/beta) * [exp(beta*(z+1)) - exp(beta*z)])
+   * but we'll perform this as
+   *     1 - [exp(-(alpha/beta)*exp(beta*(z+1))) * exp((alpha/beta)*exp(beta*z))]
+   * to try to minimize possible float cancellation problems with the difference of the exps
+   */
 
   for(int i=0; i < len; i++) {
-    temp = (alpha/beta)*(exp(beta*(z[i]+1))-exp(beta*z[i]));
-    res[i] = 1 - exp(-1*temp);
+    temp1 = -1.0 * (alpha/beta)*exp(beta*(z[i]+1));
+    temp2 = (alpha/beta)*(exp(beta*z[i]));
+    res[i] = 1 - (exp(temp1) * exp(temp2));
   }
 
   return(res);

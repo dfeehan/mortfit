@@ -6,9 +6,11 @@
 ##' @docType package
 ##' @name mortfit
 ##' @aliases mortfit mortfit-package
-##' @import Rcpp graphics stats plyr ggplot2 numDeriv functional
+##' @import Rcpp graphics stats plyr ggplot2 numDeriv
 NULL
 
 #' @useDynLib mortfit
 #' @importFrom Rcpp sourceCpp
+#' @importFrom functional Curry
 NULL
+

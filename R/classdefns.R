@@ -498,6 +498,7 @@ as.data.frame.mortalityFits <- function(obj,
 ##' @param ... other params, not currently  used
 ##' @return a list with entries df, which is a dataframe with
 ##'        the fit results, and summary
+##' @rdname mortalityFits-class
 ##' @export
 compare.fits.mortalityFits <- function(mf,...) {
 

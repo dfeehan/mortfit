@@ -29,6 +29,20 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// mortalityhazard_gompertz_binomial_grad_cpp
+NumericVector mortalityhazard_gompertz_binomial_grad_cpp(NumericVector theta, NumericVector ages, NumericVector Dx, NumericVector Nx);
+RcppExport SEXP mortfit_mortalityhazard_gompertz_binomial_grad_cpp(SEXP thetaSEXP, SEXP agesSEXP, SEXP DxSEXP, SEXP NxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ages(agesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Nx(NxSEXP);
+    __result = Rcpp::wrap(mortalityhazard_gompertz_binomial_grad_cpp(theta, ages, Dx, Nx));
+    return __result;
+END_RCPP
+}
 // mortalityhazard_kannisto_cpp
 NumericVector mortalityhazard_kannisto_cpp(NumericVector theta, NumericVector z);
 RcppExport SEXP mortfit_mortalityhazard_kannisto_cpp(SEXP thetaSEXP, SEXP zSEXP) {
@@ -122,6 +136,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
     __result = Rcpp::wrap(mortalityhazard_to_prob_makeham_cpp(theta, z));
+    return __result;
+END_RCPP
+}
+// mortalityhazard_makeham_binomial_grad_cpp
+NumericVector mortalityhazard_makeham_binomial_grad_cpp(NumericVector theta, NumericVector ages, NumericVector Dx, NumericVector Nx);
+RcppExport SEXP mortfit_mortalityhazard_makeham_binomial_grad_cpp(SEXP thetaSEXP, SEXP agesSEXP, SEXP DxSEXP, SEXP NxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ages(agesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Nx(NxSEXP);
+    __result = Rcpp::wrap(mortalityhazard_makeham_binomial_grad_cpp(theta, ages, Dx, Nx));
     return __result;
 END_RCPP
 }

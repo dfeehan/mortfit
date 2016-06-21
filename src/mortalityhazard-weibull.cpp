@@ -21,7 +21,8 @@ NumericVector mortalityhazard_weibull_cpp(NumericVector theta, NumericVector z)
   NumericVector res(len);
 
   double alpha = theta[0];
-  double beta = theta[1];
+  double beta = exp(theta[1]);
+  //double beta = theta[1];
 
   for(int i=0; i < len; i++) {
 
@@ -44,13 +45,16 @@ NumericVector mortalityhazard_to_prob_weibull_cpp(NumericVector theta, NumericVe
   NumericVector res(len);
 
   double alpha = theta[0];
-  double beta = theta[1];
+  double beta = exp(theta[1]);
+  //double beta = theta[1];
 
-  double temp = 0.0;
+  double temp1 = 0.0;
+  double temp2 = 0.0;
 
   for(int i=0; i < len; i++) {
-    temp = (alpha*(pow((z[i]+1),(1+beta))-pow(z[i],(1+beta))))/(1+beta);
-    res[i] = 1 - exp(-1*temp);
+    temp1 = (alpha / (1.0 + beta)) * pow(z[i],(1.0+beta));
+    temp2 = -1.0 * (alpha / (1.0 + beta)) * pow((z[i]+1),(1.0+beta));
+    res[i] = 1 - (exp(temp1)*exp(temp2));
   }
 
   return(res);

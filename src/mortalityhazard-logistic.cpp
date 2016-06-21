@@ -63,16 +63,21 @@ NumericVector mortalityhazard_to_prob_logistic_cpp(NumericVector theta, NumericV
   double gamma = exp(theta[2]);
   double delta = exp(theta[3]);
 
-  double k0 = 0.0;
-  double k1 = 0.0;
   double temp = 0.0;
 
+
   for(int i=0; i < len; i++) {
-    k0 = exp(beta * z[i]);
-    k1 = exp(beta * (z[i]+1));
-    temp = gamma + (alpha/(beta*delta))*(log1p(delta*k1) - log1p(delta*k0));
-    res[i] = 1 - exp(-1*temp);
+    temp = (delta*exp(beta*z[i]) + 1.0) / (delta*exp(beta*(z[i]+1)) + 1.0);
+    res[i] = 1.0 - exp(-1.0*gamma) * pow(temp, alpha/(beta*delta));
   }
+
+  //for(int i=0; i < len; i++) {
+  //  k0 = exp(beta * z[i]);
+  //  k1 = exp(beta * (z[i]+1));
+  //  temp = gamma + (alpha/(beta*delta))*(log(beta*delta*k1 + beta) -
+  //                                       log(beta*delta*k0 + beta));
+  //  res[i] = 1 - exp(-1.0*temp);
+  //}
 
   return(res);
 

@@ -27,6 +27,7 @@ setClassUnion("functionOrNULL",
 ##'     \item{num.param}{the number of parameters the hazard uses}
 ##'     \item{theta.default}{default values for the parameters}
 ##'     \item{theta.start.fn}{if not NULL, a function which takes a mortalityData object and returns starting values to be used in a numerical optimization routine}
+##'     \item{binomial.grad.fn}{if not NULL, a function which takes a parametr vector and a mortalityData object and returns the gradient of the binomial log-likelihood. Used in some numerical optimization routines}
 ##'     \item{theta.range}{if not NULL, a list with one entry for each parameter. Each parameter's entry has a range of plausible values for the parameter, which can be used if an optimization routine wants to choose a random starting value}
 ##'     \item{optim.default}{default settings to use with R's \code{\link{optim}} function}
 ##'     \item{haz.fn}{a function which takes two arguments, a vector of parameter values and a vector of ages, and returns the value of the hazard function with the given parameter values at each age.}
@@ -41,6 +42,7 @@ setClass("mortalityHazard",
                          num.param="integer",
                          theta.default="numeric",
                          theta.start.fn="functionOrNULL",
+                         binomial.grad.fn="functionOrNULL",
                          theta.range="listOrNULL",
                          optim.default="list",
                          haz.fn="function",
@@ -282,6 +284,7 @@ setClass("mortalityModel",
                         optim.default="list",
                         predict.fn="function",
                         theta.start.fn="functionOrNULL",
+                        binomial.grad.fn="functionOrNULL",
                         simulate.fn="functionOrNULL",
                         eval.fn="functionOrNULL",
                         hazard="mortalityHazardOrNULL"),

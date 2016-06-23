@@ -53,8 +53,8 @@ kannisto.haz   <- new("mortalityHazard",
                       name="Kannisto",
                       num.param=2L,
                       theta.default=c(.05, .09),
-                      theta.range=list(c(0.03, 0.07),
-                                       c(0.08, 0.11)),
+                      theta.range=list(c(log(0.03), log(0.07)),
+                                       c(log(0.08), log(0.11))),
                       theta.start.fn=function(data.obj) {
                         ## choose starting values by getting b from
                         ## a logistic regression...
@@ -62,18 +62,23 @@ kannisto.haz   <- new("mortalityHazard",
                         crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
                         crude[crude > 1] <- 1
                         prelim.theta <- coef(glm(crude ~ age,data=dat,
-                                                 family=quasibinomial(link="logit")))
+                                                 family=quasibinomial(link="logit"),
+                                                 weights=dat$Nx))
 
-                        return(c(prelim.theta[1], prelim.theta[2]))
+                        res <- c(prelim.theta[1], prelim.theta[2])
+                        if(res[2] > 0) {
+                            res[2] <- log(res[2])
+                        }
+
+                        return(res)
                       },                      
                       ## NB: method was Nelder-Mead
                       optim.default=list(method="BFGS",
-                                         control=list(parscale=c(.05, .09),
+                                         control=list(parscale=c(log(.05), 
+                                                                 log(.09)),
                                                       reltol=1e-10,
                                                       maxit=10000)),
                       haz.fn=mortalityhazard_kannisto_cpp,
+                      #binomial.grad.fn=NULL,
+                      binomial.grad.fn=mortalityhazard_kannisto_binomial_grad_cpp,
                       haz.to.prob.fn=mortalityhazard_to_prob_kannisto_cpp)
-                      #haz.fn=kannisto.haz.fn.cpp,
-                      #haz.to.prob.fn=kannisto.haz.to.prob.cpp)
-                      ##haz.fn=kannisto.haz.fn,
-                      ##haz.to.prob.fn=kannisto.haz.to.prob)

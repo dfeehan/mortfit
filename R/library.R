@@ -523,7 +523,14 @@ plot.ll.prof.all <- function(fit,
                                   })
 
     if(show) {
-      do.call("grid.arrange", pairwise.plots)
+
+      if(length(pairwise.plots) != 1) {
+          m <- marrangeGrob(pairwise.plots, 
+                            ncol=2, 
+                            nrow=ceiling(length(pairwise.plots)/2))
+
+          pairwise.plots <- m
+      }
     }
     
     return(pairwise.plots)
@@ -611,7 +618,7 @@ plot.ll.prof <- function(fit,
                                             z=pgn[3])) +
                geom_contour(bins=40,
                             aes(colour=..level..)) +
-               opts(legend.position="none")
+               theme(legend.position="none")
 
     if (heatmap) {
         ll.plot <- ll.plot + geom_tile(aes(fill=ll)) +

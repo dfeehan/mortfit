@@ -47,26 +47,31 @@ mak.haz.to.prob.cpp <- function(haz.fn, theta, z) {
 mak.haz   <- new("mortalityHazard",
                  name="Makeham",
                  num.param=3L,
-                 theta.default=c(-2.93, 7.85e-02, 7.04e-06),
-                 theta.range=list(c(-3.35, -2.64),
-                                  c(0.065, 9.15e-02),
-                                  c(-.022, 1.00e-05)),
+                 theta.default=c(0.05, 0.1, 1e-3),
+                 theta.range=list(c(.01, .1),
+                                  c(0.04, .15),
+                                  c(1e-6, 0.1)),
                  theta.start.fn=function(data.obj) {
-                   ## choose starting values by getting b from
-                   ## a logistic regression...
-                   dat <- data.obj@data
-                   crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
-                   crude[crude==0] <- 1e-5
-                   prelim.b <- coef(lm(log(crude) ~ age,data=dat))
-                   return(c(prelim.b[1], prelim.b[2], log(1e-5)))
+
+                      ## choose starting values by getting b from
+                      ## a regression on the log approximate rates
+                      dat <- data.obj@data
+                      crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
+                      crude[crude<1e-10] <- 1e-10
+
+                      #offset <- min(crude) 
+                      offset <- 1e-10
+                      logcrude.shifted <- log(crude) - offset
+
+                      prelim.b <- coef(lm(logcrude.shifted ~ age,data=dat))
+                      return(c(exp(prelim.b[1]), prelim.b[2], offset))
+
                  },                 
                  optim.default=list(method="BFGS",
-                                    control=list(parscale=c(-2.93, 7.85e-02, log(1e-5)),##7.04e-06),
-                                                 reltol=1e-10,
+                                    control=list(parscale=c(0.01, 0.01, 0.0001),
+                                                 reltol=1e-12,
                                                  maxit=10000)),
                  haz.fn=mortalityhazard_makeham_cpp,
+                 #binomial.grad.fn=NULL,
+                 binomial.grad.fn=mortalityhazard_makeham_binomial_grad_cpp,
                  haz.to.prob.fn=mortalityhazard_to_prob_makeham_cpp)
-                 #haz.fn=mak.haz.fn.cpp,
-                 #haz.to.prob.fn=mak.haz.to.prob.cpp)
-                 ##haz.fn=mak.haz.fn,
-                 ##haz.to.prob.fn=mak.haz.to.prob)

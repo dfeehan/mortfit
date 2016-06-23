@@ -112,6 +112,9 @@ optim.fit <- function(model.obj,
   ## when we want to figure out whether or not this has converged
   ## NB: this requires the numDeriv() library
 
+  ## TODO - how should this change now that we have
+  ##        analytic gradients in some cases?
+
   out <- try(start.gradient <- numDeriv::grad(func=model.obj@loglik.fn,
                                               x=theta.init,
                                               Dx=data@data$Dx,
@@ -128,11 +131,23 @@ optim.fit <- function(model.obj,
 
   ## use the numerical gradient 
   #num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn, method="simple")
-  num_grad <- functional::Curry(numDeriv::grad, func=model.obj@loglik.fn, method="Richardson")
+  #num_grad <- functional::Curry(numDeriv::grad, func=model.obj@loglik.fn, method="Richardson")
+
+  if (is.null(model.obj@binomial.grad.fn)) {
+      ## use the numerical gradient 
+      ## as the default
+      #bin_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn, method="simple")
+      bin_grad <- functional::Curry(numDeriv::grad, func=model.obj@loglik.fn, method="Richardson")
+  } else {
+      bin_grad <- model.obj@binomial.grad.fn
+  }
+
+  ## OK, so I think the way to do this is to have
+  ## a model.obj@binomial_grad param?
 
   out <- try(op.out <- optim(par=theta.init,
                    fn=model.obj@loglik.fn,
-                   gr=num_grad,
+                   gr=bin_grad,
                    Dx=data@data$Dx,
                    Nx=data@data$Nx,
                    ages=data@data$age,

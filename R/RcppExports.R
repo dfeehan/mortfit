@@ -21,6 +21,10 @@ mortalityhazard_to_prob_kannisto_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_to_prob_kannisto_cpp', PACKAGE = 'mortfit', theta, z)
 }
 
+mortalityhazard_kannisto_binomial_grad_cpp <- function(theta, ages, Dx, Nx) {
+    .Call('mortfit_mortalityhazard_kannisto_binomial_grad_cpp', PACKAGE = 'mortfit', theta, ages, Dx, Nx)
+}
+
 mortalityhazard_lb_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_lb_cpp', PACKAGE = 'mortfit', theta, z)
 }
@@ -29,12 +33,20 @@ mortalityhazard_to_prob_lb_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_to_prob_lb_cpp', PACKAGE = 'mortfit', theta, z)
 }
 
+mortalityhazard_lb_binomial_grad_cpp <- function(theta, ages, Dx, Nx) {
+    .Call('mortfit_mortalityhazard_lb_binomial_grad_cpp', PACKAGE = 'mortfit', theta, ages, Dx, Nx)
+}
+
 mortalityhazard_logistic_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_logistic_cpp', PACKAGE = 'mortfit', theta, z)
 }
 
 mortalityhazard_to_prob_logistic_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_to_prob_logistic_cpp', PACKAGE = 'mortfit', theta, z)
+}
+
+mortalityhazard_logistic_binomial_grad_cpp <- function(theta, ages, Dx, Nx) {
+    .Call('mortfit_mortalityhazard_logistic_binomial_grad_cpp', PACKAGE = 'mortfit', theta, ages, Dx, Nx)
 }
 
 mortalityhazard_makeham_cpp <- function(theta, z) {
@@ -57,12 +69,20 @@ mortalityhazard_to_prob_quadratic_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_to_prob_quadratic_cpp', PACKAGE = 'mortfit', theta, z)
 }
 
+mortalityhazard_quadratic_binomial_grad_cpp <- function(theta, ages, Dx, Nx) {
+    .Call('mortfit_mortalityhazard_quadratic_binomial_grad_cpp', PACKAGE = 'mortfit', theta, ages, Dx, Nx)
+}
+
 mortalityhazard_weibull_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_weibull_cpp', PACKAGE = 'mortfit', theta, z)
 }
 
 mortalityhazard_to_prob_weibull_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_to_prob_weibull_cpp', PACKAGE = 'mortfit', theta, z)
+}
+
+mortalityhazard_weibull_binomial_grad_cpp <- function(theta, ages, Dx, Nx) {
+    .Call('mortfit_mortalityhazard_weibull_binomial_grad_cpp', PACKAGE = 'mortfit', theta, ages, Dx, Nx)
 }
 
 rmnom <- function(n, p) {

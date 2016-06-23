@@ -142,6 +142,7 @@ quad.haz <- new("mortalityHazard",
                 theta.range=list(c(-3.46, -2.76),
                                  c(0.071, 0.118),
                                  c(-.0018, 0.0003)),
+
                 theta.start.fn=function(data.obj) {
                   ## choose starting values via a
                   ## regression on the log of the crude rates
@@ -149,21 +150,20 @@ quad.haz <- new("mortalityHazard",
                   crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
                   crude[crude<=0] <- 1e-9
                   dat$age2 <- dat$age^2
-                  prelim.b <- coef(lm(log(crude) ~ age + age2,data=dat))
+                  prelim.b <- coef(lm(log(crude) ~ age + age2,
+                                      weights=dat$Nx,
+                                      data=dat))
 
                   return(prelim.b)
                 },                
                 ## NB: was Nelder-Mead
                 optim.default=list(method="BFGS",
-                                   control=list(parscale=c(-3.04, .097, -8e-4),
-                                                reltol=1e-10)),
+                                   control=list(parscale=c(-1, .01, 1e-4),
+                                                reltol=1e-12)),
                 haz.fn=mortalityhazard_quadratic_cpp,
+                #binomial.grad.fn=NULL,
+                binomial.grad.fn=mortalityhazard_quadratic_binomial_grad_cpp,
                 haz.to.prob.fn=mortalityhazard_to_prob_quadratic_cpp)
-                 ##haz.fn=quad.haz.fn.cpp,
-                 ##haz.to.prob.fn=quad.haz.to.prob.cpp)
-                 ##haz.to.prob.fn=quad.haz.to.prob)
-                 ##haz.fn=quad.haz.fn,
-                 ##haz.to.prob.fn=haz.to.prob)
 
 
 

@@ -46,13 +46,15 @@ gomp.haz <- new("mortalityHazard",
                   ## a regression on the log approximate rates
                   dat <- data.obj@data
                   crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
-                  crude[crude==0] <- 1e-5
+                  crude[crude<1e-10] <- 1e-10
                   regout <- coef(lm(log(crude)~age,data=dat))
                   return(c(regout[1], regout[2]))
                 },
                 optim.default=list(method="BFGS",
-                                   control=list(parscale=c(-3, 0.08),
-                                                reltol=1e-10)),
+                                   control=list(parscale=c(0.1, 0.1),
+                                                reltol=1e-12)),
+                #binomial.grad.fn=NULL,
+                binomial.grad.fn=mortalityhazard_gompertz_binomial_grad_cpp,
                 haz.fn=mortalityhazard_gompertz_cpp,
                 haz.to.prob.fn=mortalityhazard_to_prob_gompertz_cpp)
                 #haz.fn=gomp.haz.fn.cpp,

@@ -191,7 +191,7 @@ NumericVector mortalityhazard_makeham_binomial_grad_cpp(NumericVector theta,
 
   }
 
-  Rcout << "partial wrt alpha: " << partI + partII << std::endl;
+  //Rcout << "partial wrt alpha: " << partI + partII << std::endl;
 
   res[ALPHA_IDX] = partI + partII;
 
@@ -216,7 +216,7 @@ NumericVector mortalityhazard_makeham_binomial_grad_cpp(NumericVector theta,
 
   }
 
-  Rcout << "partial wrt beta: " << partI + partII << std::endl;
+  //Rcout << "partial wrt beta: " << partI + partII << std::endl;
 
   res[BETA_IDX] = partI + partII;
 
@@ -238,7 +238,7 @@ NumericVector mortalityhazard_makeham_binomial_grad_cpp(NumericVector theta,
 
   }
 
-  Rcout << "partial wrt gamma: " << partI + partII << std::endl;
+  //Rcout << "partial wrt gamma: " << partI + partII << std::endl;
 
   res[GAMMA_IDX] = partI + partII;
 

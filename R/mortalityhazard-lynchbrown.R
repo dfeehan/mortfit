@@ -89,24 +89,29 @@ lb.haz   <- new("mortalityHazard",
                 ##     but rather safe starting values
                 theta.range=list(c(-.1, 1.57),
                                  c(-1.53, -1.43),
-                                 c(-2.23, -2.17),
+                                 c(-3.0, -2.0),
                                  c(-5, 22)),
 
                 theta.start.fn=function(data.obj) {
+
                   ## choose starting values by getting b from
                   ## a regression...
                   dat <- data.obj@data
                   crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
 
-                  crude[crude > 1] <- 1
+                  crude[crude > 1] <- .9999
+                  crude[crude == 0] <- .000001
                   
                   roughmod <- glm(crude ~ age,
                                   data=dat,
+                                  weight=dat$Nx,
                                   family=quasibinomial(link="logit"))
                   fv <- fitted.values(roughmod)
 
                   mid <- mean(range(fv))
                   age.mid.idx <- which.min(abs(fv-mid))
+                  ## age at which fitted probs are closest to the mean
+                  ## (one way of thinking about middle age wrt death rates)
                   age.mid <- dat$age[age.mid.idx]
                   
                   ## beta is the maximum value that the hazard rates attain,
@@ -137,38 +142,32 @@ lb.haz   <- new("mortalityHazard",
                   ## substitute this in from rough code / logistic reg
                   delta <- age.mid
 
-                  ## alpha is the mortality rate at the inflection point
-                  ## (from logistic reg)
-                  ## alpha <- mid
                   ## pick alpha so that we know all of the hazards
                   ## will be positive at their initial values
                   etmp <- c(beta,gamma,delta)
                   rawval <- etmp[1]*atan(etmp[2]*(1-etmp[3]))
 
-                  #if (rawval > 0) {
-                  #  alpha <- mid
-                  #} else {
-                  #  alpha <- -1*rawval + crude[1]
-                  #}
+                  rawval.atinf <- etmp[1]*atan(etmp[2]*(age.mid-etmp[3]))
 
-                  ## this is lim x -> -Inf of arctan(x); since we want
-                  ## hazards to be strictly positive, alpha >= 1.57
-                  ## means that the whole
-                  ##alpha <- 1.57
-                  ##alpha <- .25
+                  if (rawval < 0) {
+                    alpha <- -rawval + .01
+                  } else {
+                    alpha <- rawval 
+                  }
 
-                  alpha <- -1*rawval + .1
                   
                   return(c(alpha,log(beta),log(gamma),delta))
                   
                 },                
                 optim.default=list(method="BFGS",
-                                   control=list(parscale=c(.0001, 
-                                                           .0001, 
-                                                           .0001, 
-                                                           .0001),
+                                   control=list(parscale=c(0.01, 
+                                                           0.1, 
+                                                           0.1, 
+                                                           0.1),
                                                 reltol=1e-10,
-                                                maxit=10000)),
+                                                maxit=50000)),
                 haz.fn=mortalityhazard_lb_cpp,
+                #binomial.grad.fn=NULL,
+                binomial.grad.fn=mortalityhazard_lb_binomial_grad_cpp,
                 haz.to.prob.fn=mortalityhazard_to_prob_lb_cpp)
 

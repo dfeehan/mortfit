@@ -196,10 +196,22 @@ createBinomialModel <- function(haz.obj) {
     } else {
       tifn <- NULL
     }
+
+    ## if the hazard object has a function for
+    ## computing the binomial log-likelihood gradient, then
+    ## include it in our mortalityModel object;
+    ## otherwise, don't
+    if (! is.null(haz.obj@binomial.grad.fn)) {
+      bgfn <- haz.obj@binomial.grad.fn
+    } else {
+      bgfn <- NULL
+    }
+
     
     this.obj <- new("mortalityModel",
                     name=paste("Binomial", "-", haz.obj@name),
                     loglik.fn=this.loglik,
+                    binomial.grad.fn=bgfn,
                     num.param=haz.obj@num.param,
                     theta.default=haz.obj@theta.default,
                     theta.range=haz.obj@theta.range,

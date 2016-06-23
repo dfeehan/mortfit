@@ -67,6 +67,20 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// mortalityhazard_kannisto_binomial_grad_cpp
+NumericVector mortalityhazard_kannisto_binomial_grad_cpp(NumericVector theta, NumericVector ages, NumericVector Dx, NumericVector Nx);
+RcppExport SEXP mortfit_mortalityhazard_kannisto_binomial_grad_cpp(SEXP thetaSEXP, SEXP agesSEXP, SEXP DxSEXP, SEXP NxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ages(agesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Nx(NxSEXP);
+    __result = Rcpp::wrap(mortalityhazard_kannisto_binomial_grad_cpp(theta, ages, Dx, Nx));
+    return __result;
+END_RCPP
+}
 // mortalityhazard_lb_cpp
 NumericVector mortalityhazard_lb_cpp(NumericVector theta, NumericVector z);
 RcppExport SEXP mortfit_mortalityhazard_lb_cpp(SEXP thetaSEXP, SEXP zSEXP) {
@@ -91,6 +105,20 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// mortalityhazard_lb_binomial_grad_cpp
+NumericVector mortalityhazard_lb_binomial_grad_cpp(NumericVector theta, NumericVector ages, NumericVector Dx, NumericVector Nx);
+RcppExport SEXP mortfit_mortalityhazard_lb_binomial_grad_cpp(SEXP thetaSEXP, SEXP agesSEXP, SEXP DxSEXP, SEXP NxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ages(agesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Nx(NxSEXP);
+    __result = Rcpp::wrap(mortalityhazard_lb_binomial_grad_cpp(theta, ages, Dx, Nx));
+    return __result;
+END_RCPP
+}
 // mortalityhazard_logistic_cpp
 NumericVector mortalityhazard_logistic_cpp(NumericVector theta, NumericVector z);
 RcppExport SEXP mortfit_mortalityhazard_logistic_cpp(SEXP thetaSEXP, SEXP zSEXP) {
@@ -112,6 +140,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
     __result = Rcpp::wrap(mortalityhazard_to_prob_logistic_cpp(theta, z));
+    return __result;
+END_RCPP
+}
+// mortalityhazard_logistic_binomial_grad_cpp
+NumericVector mortalityhazard_logistic_binomial_grad_cpp(NumericVector theta, NumericVector ages, NumericVector Dx, NumericVector Nx);
+RcppExport SEXP mortfit_mortalityhazard_logistic_binomial_grad_cpp(SEXP thetaSEXP, SEXP agesSEXP, SEXP DxSEXP, SEXP NxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ages(agesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Nx(NxSEXP);
+    __result = Rcpp::wrap(mortalityhazard_logistic_binomial_grad_cpp(theta, ages, Dx, Nx));
     return __result;
 END_RCPP
 }
@@ -177,6 +219,20 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// mortalityhazard_quadratic_binomial_grad_cpp
+NumericVector mortalityhazard_quadratic_binomial_grad_cpp(NumericVector theta, NumericVector ages, NumericVector Dx, NumericVector Nx);
+RcppExport SEXP mortfit_mortalityhazard_quadratic_binomial_grad_cpp(SEXP thetaSEXP, SEXP agesSEXP, SEXP DxSEXP, SEXP NxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ages(agesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Nx(NxSEXP);
+    __result = Rcpp::wrap(mortalityhazard_quadratic_binomial_grad_cpp(theta, ages, Dx, Nx));
+    return __result;
+END_RCPP
+}
 // mortalityhazard_weibull_cpp
 NumericVector mortalityhazard_weibull_cpp(NumericVector theta, NumericVector z);
 RcppExport SEXP mortfit_mortalityhazard_weibull_cpp(SEXP thetaSEXP, SEXP zSEXP) {
@@ -198,6 +254,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
     __result = Rcpp::wrap(mortalityhazard_to_prob_weibull_cpp(theta, z));
+    return __result;
+END_RCPP
+}
+// mortalityhazard_weibull_binomial_grad_cpp
+NumericVector mortalityhazard_weibull_binomial_grad_cpp(NumericVector theta, NumericVector ages, NumericVector Dx, NumericVector Nx);
+RcppExport SEXP mortfit_mortalityhazard_weibull_binomial_grad_cpp(SEXP thetaSEXP, SEXP agesSEXP, SEXP DxSEXP, SEXP NxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ages(agesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Nx(NxSEXP);
+    __result = Rcpp::wrap(mortalityhazard_weibull_binomial_grad_cpp(theta, ages, Dx, Nx));
     return __result;
 END_RCPP
 }

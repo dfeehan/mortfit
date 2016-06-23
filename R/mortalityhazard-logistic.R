@@ -66,16 +66,16 @@ logistic.haz.to.prob <- function(haz.fn, theta, z) {
 logistic.haz   <- new("mortalityHazard",
                       name="Logistic",
                       num.param=4L,
-                      theta.default=c(-2.95, 0.104, -67.08, -2.37),
+                      theta.default=c(-2.95, 
+                                      -1.9, 
+                                      -25, 
+                                      -1.7),
                       theta.range=list(c(-3.49, -2.6),
-                                       c(0.08, 0.14),
-                                       c(-253.16, -7.32),
-                                       c(-5.8, -1.5)),
+                                       c(-3, 1.1),
+                                       c(log(1e-10), log(1e-1)),
+                                       c(-3, 1.1)),
                       theta.start.fn=function(data.obj) {
 
-                        #### TEMP -- try using these values for everyone
-                        #return(c(-3.2, -2.1, -4.9, -2.5))
-                        
                         ## choose starting values by getting b from
                         ## a logistic regression...
                         dat <- data.obj@data
@@ -127,7 +127,7 @@ logistic.haz   <- new("mortalityHazard",
                         ## starting value for delta
                         delta.init <- 1 / exp(beta.init*age.mid)
 
-                        ## this is a hack. in some cases, where central death rates
+                        ## in some cases, where central death rates
                         ## look much more linear than sigmoid, initial delta parameter
                         ## is waaaay too small. so put a limit on how small it can be.
                         if (delta.init < exp(-3)) {
@@ -138,7 +138,10 @@ logistic.haz   <- new("mortalityHazard",
                         alpha.init <- (max(crude))*delta.init
 
                         ## starting value for gamma
-                        gamma.init <- min(crude[1:min(5,length(crude))]) - (alpha.init / (1 + alpha.init))
+                        gamma.init <- min(crude[1:min(5,length(crude))]) - 
+                                          (alpha.init / (1 + delta.init))
+                        #gamma.init <- min(crude[1:min(5,length(crude))]) - 
+                        #                  (alpha.init / (1 + alpha.init))
                         
                         if (gamma.init <= 0) {
                           gamma.init <- 1e-9
@@ -149,14 +152,14 @@ logistic.haz   <- new("mortalityHazard",
                       },
                       optim.default=list(method="BFGS",
                                          control=list(
-                                                      parscale=c(-3.9, -1.8,
-                                                                 -3.6, -2.6),
+                                                      parscale=c(-3.9, 
+                                                                 -1.8,
+                                                                 -5,
+                                                                 -2.6),
                                                       reltol=1e-10,
                                                       maxit=10000)),
                                                       ##trace=6)),                      
                        haz.fn=mortalityhazard_logistic_cpp,
+                       #binomial.grad.fn=NULL,
+                       binomial.grad.fn=mortalityhazard_logistic_binomial_grad_cpp,
                        haz.to.prob.fn=mortalityhazard_to_prob_logistic_cpp)
-                       #haz.fn=logistic.haz.fn.cpp,
-                       #haz.to.prob.fn=logistic.haz.to.prob.cpp)
-                       ##haz.fn=logistic.haz.fn,
-                       ##haz.to.prob.fn=logistic.haz.to.prob)

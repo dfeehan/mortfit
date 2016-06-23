@@ -45,28 +45,28 @@ weibull.haz.to.prob.cpp <- function(haz.fn, theta, z) {
 weibull.haz <- new("mortalityHazard",
                    name="Weibull",
                    num.param=2L,
-                   theta.default=c(0.038, 0.487),
-                   theta.range=list(c(0.0212, 0.0548),
-                                    c(0.386, 0.623)),
+                   theta.default=c(0.038, 0.5),
+                   theta.range=list(c(0.0001, 0.05),
+                                    c(-1, 1)),
                    theta.start.fn=function(data.obj) {
+
                      ## choose starting values by getting b from
                      ## a logistic regression...
                      dat <- data.obj@data
                      crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
                      crude[crude==0] <- 1e-5
-                     prelim.t <- coef(lm(log(crude) ~ log(age),data=dat))
-                     return(c(exp(prelim.t[1]), prelim.t[2]))
-                     ##return(c(prelim.t[1], prelim.t[2]))                     
+                     prelim.t <- coef(lm(log(crude) ~ log(age),
+                                         weights=dat$Nx,
+                                         data=dat))
+                     return(c(prelim.t[1], prelim.t[2]))
+
                    },                   
                    ##NB: was Nelder-Mead
                    optim.default=list(method="BFGS",
-                                      control=list(reltol=1e-8,
-                                                   ##parscale=c(0.03,
-                                                   parscale=c(0.038,
-                                                              0.487))),
+                                      control=list(reltol=1e-10,
+                                                   parscale=c(-3,
+                                                              0.4))),
                    haz.fn=mortalityhazard_weibull_cpp,
+                   #binomial.grad.fn=NULL,
+                   binomial.grad.fn=mortalityhazard_weibull_binomial_grad_cpp,
                    haz.to.prob.fn=mortalityhazard_to_prob_weibull_cpp)
-                   #haz.fn=weibull.haz.fn.cpp,
-                   #haz.to.prob.fn=weibull.haz.to.prob.cpp)
-                   ##haz.fn=weibull.haz.fn,
-                   ##haz.to.prob.fn=weibull.haz.to.prob)

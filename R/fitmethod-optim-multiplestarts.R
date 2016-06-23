@@ -49,6 +49,7 @@ optim.multiple.fit <- function(model.obj,
                         method=optimFit,
                         ignore.folded=ignore.folded,
                         verbose=verbose,
+                        random.start=FALSE,
                         ...)  
 
   if(verbose) {

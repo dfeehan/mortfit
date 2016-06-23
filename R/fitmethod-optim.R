@@ -51,18 +51,24 @@ optim.fit <- function(model.obj,
 
     ## ... unless we're choosing random starting values, in which case
     ## we should do so
-    if (random.start) {      
+    if (random.start) { 
 
        if (! is.null(model.obj@theta.range)) {
 
 
           testhaz <- rep(0, length(data@data$age))
+          testprob <- rep(0, length(data@data$age))
+          testll <- 0
+
           numdraw <- 1
 
           ## draw random starting values; keep doing this until the initial
           ## hazards are all positive (for some hazards, like lynch-brown, 
           ## it's pretty easy to get random starting params that produce negative hazards)
-          while (! all(testhaz > 0)) {
+          while (! (all(testhaz > 0) &
+                    all(testprob <= 1) &
+                    all(testprob >= 0) &
+                    is.finite(testll)) ) {
 
               if(numdraw > 50) {
                   stop("Failed to get starting values after 50 tries.")
@@ -81,7 +87,16 @@ optim.fit <- function(model.obj,
                                       return(runif(1, min=tr[2], max=tr[1]))
                                     }
                                   })
+
+              ## calculate hazards and probabilities of death
+              ## for these starting values (to be sure they are feasible)
               testhaz <- model.obj@hazard@haz.fn(theta.init, data@data$age)
+              testprob <- model.obj@hazard@haz.to.prob.fn(theta.init, data@data$age)
+              testll <- model.obj@loglik.fn(theta.init, 
+                                            Dx=data@data$Dx,
+                                            Nx=data@data$Nx,
+                                            ages=data@data$age)
+
           }
         } else {
           if(verbose) {
@@ -107,20 +122,31 @@ optim.fit <- function(model.obj,
     cat(theta.init, "\n")
   }
 
-  ## compute the gradient of the objective function at the
-  ## starting values; this will be a useful comparison point later,
-  ## when we want to figure out whether or not this has converged
-  ## NB: this requires the numDeriv() library
+  if (is.null(model.obj@binomial.grad.fn)) {
 
-  ## TODO - how should this change now that we have
-  ##        analytic gradients in some cases?
+      ## use the numerical gradient 
+      ## as the default
+      bin_grad <- functional::Curry(numDeriv::grad, 
+                                    func=model.obj@loglik.fn, 
+                                    method="Richardson")
 
-  out <- try(start.gradient <- numDeriv::grad(func=model.obj@loglik.fn,
-                                              x=theta.init,
-                                              Dx=data@data$Dx,
-                                              Nx=data@data$Nx,
-                                              ages=data@data$age,
-                                              method="simple"))
+      ## compute the gradient of the objective function at the
+      ## starting values; this will be a useful comparison point later,
+      ## when we want to figure out whether or not this has converged
+      ## NB: this requires the numDeriv() library
+
+  } else {
+
+      ## use the analytic gradient, if it is defined
+      bin_grad <- model.obj@binomial.grad.fn
+
+  }
+
+  out <- try(start.gradient <- bin_grad(theta.init,
+                                        Dx=data@data$Dx,
+                                        Nx=data@data$Nx,
+                                        ages=data@data$age))
+
   if (class(out)=="try-error") {
     if(verbose) {
       cat("Error in computing gradient at starting values!\n")
@@ -128,22 +154,6 @@ optim.fit <- function(model.obj,
     }
     #browser()
   }
-
-  ## use the numerical gradient 
-  #num_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn, method="simple")
-  #num_grad <- functional::Curry(numDeriv::grad, func=model.obj@loglik.fn, method="Richardson")
-
-  if (is.null(model.obj@binomial.grad.fn)) {
-      ## use the numerical gradient 
-      ## as the default
-      #bin_grad <- Curry(numDeriv::grad, func=model.obj@loglik.fn, method="simple")
-      bin_grad <- functional::Curry(numDeriv::grad, func=model.obj@loglik.fn, method="Richardson")
-  } else {
-      bin_grad <- model.obj@binomial.grad.fn
-  }
-
-  ## OK, so I think the way to do this is to have
-  ## a model.obj@binomial_grad param?
 
   out <- try(op.out <- optim(par=theta.init,
                    fn=model.obj@loglik.fn,
@@ -171,24 +181,18 @@ optim.fit <- function(model.obj,
     stop("optimFit's optim.fit: optimization did not converge!\ncalled with ", model.obj@name, " - ", data@name, "\nstarting values: ", theta.init, "\n")
   }
 
-  ## NB: this requires the numDeriv() library
-  ## NB: I've found the method 'simple' to be somewhat
-  ## more robust than 'Richardson', though th latter sounds
-  ## more rigorous. Since our main focus isn't on estimates
-  ## of the gradient or the Hessian, I'm using the 'simple'
-  ## approach for now.
-  opt.gradient <- numDeriv::grad(func=model.obj@loglik.fn,
-                                 x=op.out$par,
-                                 Dx=data@data$Dx,
-                                 Nx=data@data$Nx,
-                                 ages=data@data$age,
-                                 method="simple")
+  opt.gradient <- try(opt.gradient <- bin_grad(theta.init,
+                                               Dx=data@data$Dx,
+                                               Nx=data@data$Nx,
+                                               ages=data@data$age))
 
-  opt.hessian <- numDeriv::hessian(func=model.obj@loglik.fn,
+
+
+  opt.hessian <- try(numDeriv::hessian(func=model.obj@loglik.fn,
                                    x=op.out$par,
                                    Dx=data@data$Dx,
                                    Nx=data@data$Nx,
-                                   ages=data@data$age)
+                                   ages=data@data$age))
 
   opt.eigenvalues <- as.numeric(NA)
   try(opt.eigenvalues <- eigen(opt.hessian)$values)

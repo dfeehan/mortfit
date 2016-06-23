@@ -282,26 +282,36 @@ mort.fit.cv <- function(model.obj,
                              random.start=random.start,
                              ...))
 
-    ## computed predicted values for the held out data
-    these.pred <- model.obj@predict.fn(this.out@theta.hat,
-                                       oos.data@data$Nx,
-                                       oos.data@data$age)
+    if (class(this.out)=="try-error") {
+        
+        if (verbose) {
+            cat("\nCan't extract fit object for fold ", this.fold, 
+                " of ", model.obj@name, " - ", data@name, "\n\n")
+        }
 
-    ## and summarize the prediction (we'll use the
-    ## sum of squared errors in the predicted number of deaths)
-    oos.fit <- summarize.prediction(these.pred, oos.data)
+    } else {
 
-    cv.err.Dx[[this.fold]] <- oos.fit$SSE.Dx
+        ## computed predicted values for the held out data
+        these.pred <- model.obj@predict.fn(this.out@theta.hat,
+                                           oos.data@data$Nx,
+                                           oos.data@data$age)
 
-    ## and finally, keep track of the fit for each fold so
-    ## that we can look at it later...
-    if(keep.folds.fits) {
+        ## and summarize the prediction (we'll use the
+        ## sum of squared errors in the predicted number of deaths)
+        oos.fit <- summarize.prediction(these.pred, oos.data)
 
-      folds.fits[[this.fold]] <- c(this.out,
-                                   list(fold.fit=this.out,
-                                        fold.eval.fit=oos.fit,
-                                        fold.err.Dx=cv.err.Dx[this.fold]
-                                        ))
+        cv.err.Dx[[this.fold]] <- oos.fit$SSE.Dx
+
+        ## and finally, keep track of the fit for each fold so
+        ## that we can look at it later...
+        if(keep.folds.fits) {
+
+          folds.fits[[this.fold]] <- c(this.out,
+                                       list(fold.fit=this.out,
+                                            fold.eval.fit=oos.fit,
+                                            fold.err.Dx=cv.err.Dx[this.fold]
+                                            ))
+        }
     }
 
   }

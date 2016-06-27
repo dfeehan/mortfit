@@ -1,3 +1,0 @@
-PKG_CPPFLAGS=`Rscript -e 'Rcpp:::CxxFlags()'`
-#PKG_LIBS = $(shell Rscript.exe -e "Rcpp:::LdFlags()") $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
-PKG_LIBS=`Rscript -e 'Rcpp:::LdFlags()'`

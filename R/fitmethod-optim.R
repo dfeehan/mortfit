@@ -45,7 +45,7 @@ optim.fit <- function(model.obj,
 
     ## use the defaults by default...
     theta.init <- model.obj@theta.default
-    
+
     ## if no function for choosing starting parameters was specified...
     ##if (is.null(model.obj@theta.start.fn)) {
 
@@ -88,6 +88,7 @@ optim.fit <- function(model.obj,
                                     }
                                   })
 
+
               ## calculate hazards and probabilities of death
               ## for these starting values (to be sure they are feasible)
               testhaz <- model.obj@hazard@haz.fn(theta.init, data@data$age)
@@ -112,14 +113,51 @@ optim.fit <- function(model.obj,
       if(verbose) {
         cat("calling model fn for starting values...\n")
       }
+
       theta.init <- model.obj@theta.start.fn(data)
+
+      ## calculate hazards and probabilities of death
+      ## for these starting values (to be sure they are feasible)
+      testhaz <- model.obj@hazard@haz.fn(theta.init, data@data$age)
+      testprob <- model.obj@hazard@haz.to.prob.fn(theta.init, data@data$age)
+      testll <- model.obj@loglik.fn(theta.init, 
+                                    Dx=data@data$Dx,
+                                    Nx=data@data$Nx,
+                                    ages=data@data$age)
+
+      if (! (all(testhaz > 0) &
+             all(testprob <= 1) &
+             all(testprob >= 0) &
+             is.finite(testll)) ) {
+
+          if(verbose) {
+            cat("Model fn starting values failed! Using random start instead...\n")
+          }
+
+          ## if the starting values returned by the default fn
+          ## are not feasible, then
+          ## call and return the results of a random start instead
+          this.out <- try(optim.fit(model.obj,
+                                    data,
+                                    verbose=verbose,
+                                    random.start=TRUE,
+                                    ...))
+
+          # check for error in the random start
+          if(class(this.out)=="try-error") {
+              stop("Default theta fn failed; then randomly chosen starting values also failed.")
+          }
+
+          return(this.out)
+
+      }
     }
 
   }
 
   if(verbose) {
     cat("starting values: \n")
-    cat(theta.init, "\n")
+    cat(theta.init, "\n", sep=", ")
   }
 
   if (is.null(model.obj@binomial.grad.fn)) {
@@ -152,7 +190,6 @@ optim.fit <- function(model.obj,
       cat("Error in computing gradient at starting values!\n")
       cat("theta = ", paste(theta.init, "\n"))
     }
-    #browser()
   }
 
   out <- try(op.out <- optim(par=theta.init,
@@ -178,7 +215,8 @@ optim.fit <- function(model.obj,
   }
 
   if (op.out$convergence != 0) {
-    stop("optimFit's optim.fit: optimization did not converge!\ncalled with ", model.obj@name, " - ", data@name, "\nstarting values: ", theta.init, "\n")
+    stop("optimFit's optim.fit: optimization did not converge!\ncalled with ", model.obj@name, " - ", data@name, 
+         "\nstarting values: ", paste(theta.init, sep=", "),  "\n")
   }
 
   opt.gradient <- try(opt.gradient <- bin_grad(theta.init,

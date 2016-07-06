@@ -249,7 +249,7 @@ mort.fit.cv <- function(model.obj,
     cat("mort.fit.cv: Fitting ", model.obj@name, " using ",
         method@name, " on ", data@name, ".\n")
     cat("starting values: \n")
-    cat(model.obj@theta.default, "\n")
+    cat(model.obj@theta.default, "\n", sep=", ")
     cat("================================================\n")
   }
   

@@ -43,6 +43,10 @@ optim.multiple.fit <- function(model.obj,
 
   fits <- as.list(rep(NA, M + 1))
 
+  if(verbose) {
+    cat("First fitting with default thetas...\n")
+  }
+
   ## step 1: produce a preliminary fit using optim
   fits[[1]] <- mort.fit(model.obj,
                         data,
@@ -69,9 +73,9 @@ optim.multiple.fit <- function(model.obj,
                             ...)  
       
       if(verbose) {
-        cat("Fit number ", i, " with random start finished; log-likelihood: ", 
+        cat("Fit number ", i, " with random start finished for ",
+            data@name, " log-likelihood: ", 
             fits[[i]]@log.likelihood, "\n")
-        cat("Now using random starting values...\n")
       }
 
   }

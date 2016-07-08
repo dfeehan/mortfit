@@ -28,6 +28,8 @@ setClass("mortalityFitOptim",
 ##'                     uniformly from the values specified
 ##'                     by theta.range
 ##' @param verbose if TRUE, print extra info
+##' @param auto.retry if TRUE, then if convergence isn't reached, automatically
+##'                   retry with another draw of random starting values
 ##' @param ... TODO 
 ##' @return a mortalityFitOptim object
 ##' @export
@@ -36,6 +38,7 @@ optim.fit <- function(model.obj,
                       theta.init=NULL,
                       random.start=FALSE,
                       verbose=FALSE,
+                      auto.retry=TRUE,
                       ...)
 {
 
@@ -54,7 +57,6 @@ optim.fit <- function(model.obj,
     if (random.start) { 
 
        if (! is.null(model.obj@theta.range)) {
-
 
           testhaz <- rep(0, length(data@data$age))
           testprob <- rep(0, length(data@data$age))
@@ -214,9 +216,39 @@ optim.fit <- function(model.obj,
     #browser()
   }
 
+  ## TODO - LEFT OFF HERE
+  ## TWO THINGS:
+  ##   1. for random starts, if optim doesn't converge, we should try again
+  ##   2. we seem to have trouble computing the hessian in some cases
+  ##      do we really need this? (it's a fit diagnostic, iirc)
+
   if (op.out$convergence != 0) {
-    stop("optimFit's optim.fit: optimization did not converge!\ncalled with ", model.obj@name, " - ", data@name, 
-         "\nstarting values: ", paste(theta.init, sep=", "),  "\n")
+
+
+    if(auto.retry) {
+
+        if(verbose) {
+            cat("optimFit's optim.fit: optimization did not converge!\ncalled with ", 
+                 model.obj@name, " - ", data@name, 
+                 "\nstarting values: ", paste(theta.init, sep=", "),  ".\n",
+                 " Automatically retrying with random starting values.\n")
+        }
+
+        return(optim.fit(model.obj,
+                         data,
+                         verbose=verbose,
+                         random.start=TRUE,
+                         ...))
+
+    } else {
+
+        stop("optimFit's optim.fit: optimization did not converge!\ncalled with ", 
+             model.obj@name, " - ", data@name, 
+             "\nstarting values: ", paste(theta.init, sep=", "),  "\n")
+
+    }
+    
+
   }
 
   opt.gradient <- try(opt.gradient <- bin_grad(theta.init,

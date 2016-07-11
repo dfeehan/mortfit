@@ -13,14 +13,11 @@ TODO
 NOTE
 ----
 
-* 20160609 - actually, I had to fork and slightly modify RcppFaddeeva in order
-  to get this to export the C++ headers. I may make a pull request
-
 * 20160526 - this depends on the version of RcppFaddeeva that is on github and
   *not* the CRAN version. (The github version exports the Rcpp headers properly.)
   So it's necessary to
 
-    install_github("baptiste/RcppFaddeeva")
+    install_github("baptiste/RcppFaddeeva@5fb5c32")
 
   in order to build this version
 

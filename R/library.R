@@ -33,11 +33,11 @@ partition.into.folds <- function(num.folds, data) {
 
   fold.count.Dx <- t(sapply(mdat$Dx,
                             ##rmnom::rmnom,
-                            rmnom,
+                            rmnom_cpp,
                             matrix(fold.probs,ncol=num.folds)))
   fold.count.Sx <- t(sapply(mdat$Sx,
                             ##rmnom::rmnom,
-                            rmnom,
+                            rmnom_cpp,
                             matrix(fold.probs,ncol=num.folds)))
 
   fold.data <- list()

@@ -5,7 +5,7 @@
 \title{optim.fit}
 \usage{
 optim.fit(model.obj, data, theta.init = NULL, random.start = FALSE,
-  verbose = FALSE, ...)
+  verbose = FALSE, auto.retry = TRUE, ...)
 }
 \arguments{
 \item{model.obj}{a mortalityModel object}
@@ -21,6 +21,9 @@ uniformly from the values specified
 by theta.range}
 
 \item{verbose}{if TRUE, print extra info}
+
+\item{auto.retry}{if TRUE, then if convergence isn't reached, automatically
+retry with another draw of random starting values}
 
 \item{...}{TODO}
 }

@@ -17,7 +17,7 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-NumericVector rmnom(SEXP n, SEXP p)
+NumericVector rmnom_cpp(SEXP n, SEXP p)
 {
 
   using namespace Rcpp;

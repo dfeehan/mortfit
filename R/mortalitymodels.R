@@ -120,7 +120,8 @@ createBinomialModel <- function(haz.obj) {
 
       return(new("mortalityPrediction",
                  ## TODO -- eventually, fill in a sensible name here
-                 name=paste("TODO -- need to fill in names"),
+                 #name=paste("TODO -- need to fill in names"),
+                 name="",
                  fitted.Dx=fitted.Dx,
                  fitted.qx=fitted.qx,
                  theta=theta,

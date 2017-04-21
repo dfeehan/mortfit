@@ -32,6 +32,7 @@ Collate:
     'fitmethod-optim-multiplestarts.R'
     'fitmethods.R'
     'library.R'
+    'mortalityhazard-beard.R'
     'mortalityhazard-consthaz.R'
     'mortalityhazard-eta.R'
     'mortalityhazard-exweibull.R'

@@ -31,5 +31,50 @@ ideas for tests
 
 * test for haz.to.prob: one way of doing this is to take fairly easy cases, with known closed-form solutions, and to test the haz.to.prob output against them
 
+To add a hazard function
+------------------------
+
+* create `mortalityhazard-beard.R`
+	- include code to create new `mortalityHazard` object
+	
+* calculate
+	1. hazard to probability function
+	2. gradients
+
+* Using Sage, I produced C++ code to calculate (1) and (2) above.
+  I put the results in `mortalityhazard-beard.cpp`. The function names are:
+	* `mortalityhazard_beard_cpp` - calculates the mortality hazard, given params
+	* `mortalityhazard_to_prob_beard_cpp` - given params and ages, calculates cond prob of death
+	* `mortalityhazard_beard_binomial_grad_cpp` - calculates the gradient of the binomial likelihood
+	* `beard_partial_alpha_partI` - calculates first part of gradient wrt alpha
+	* `beard_partial_alpha_partII` - calculates second part of gradient wrt alpha
+	* similarl functions to calculate gradient wrt other params
+
+TODO
+----
+
+	* `mortalitymodels.R` 
+		- add createBinomialModel() call for new hazard
+		- add the new model to the list binomial.models
+	* `mortalityhazard-[NAME].R` - main purpose of this file is to create a
+	  new `mortalityhazard` object. Most of the work here involves creating
+		- the hazard function itself (probably in C++)
+		* the gradient function (probably in C++)
+		* a function to turn hazards over an age range into conditional probabilities
+		  (probably in C++)
+		- a function to calculate starting values for optimization
+	* `mortalityhazard-[NAME].cpp` will have
+		- the hazard function itself
+		- the gradient function (may involve a few functions)
+		- the hazard to probability function
+
+
+
+Components of a mortality model
+-------------------------------
+
+* a probability model; in all of this work, we use the Binomial model
+  (see `mortalitymodels.R`)
+
 
 

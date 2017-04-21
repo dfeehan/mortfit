@@ -25,6 +25,7 @@
 ## @include mortalityhazard-makeham.R
 ## @include mortalityhazard-quadratic.R
 ## @include mortalityhazard-weibull.R
+## @include mortalityhazard-beard.R
 
 ###########################################################
 ##' createBinomialModel
@@ -448,6 +449,9 @@ binomialGompertzModel <- createBinomialModel(gomp.haz)
 poissonLogisticModel <- createPoissonModel(logistic.haz)
 binomialLogisticModel <- createBinomialModel(logistic.haz)
 
+poissonBeardModel <- createPoissonModel(beard.haz)
+binomialBeardModel <- createBinomialModel(beard.haz)
+
 poissonKannistoModel <- createPoissonModel(kannisto.haz)
 binomialKannistoModel <- createBinomialModel(kannisto.haz)
 
@@ -488,6 +492,7 @@ binomial.models <- c(binomialWeibullModel,
                      binomialMakehamModel,
                      binomialGompertzModel,
                      binomialLogisticModel,
+                     binomialBeardModel,
                      binomialKannistoModel
                      ##binomialETAModel
                      )

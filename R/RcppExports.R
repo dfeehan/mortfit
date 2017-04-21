@@ -73,6 +73,18 @@ mortalityhazard_makeham_binomial_grad_cpp <- function(theta, ages, Dx, Nx) {
     .Call('mortfit_mortalityhazard_makeham_binomial_grad_cpp', PACKAGE = 'mortfit', theta, ages, Dx, Nx)
 }
 
+mortalityhazard_perks_cpp <- function(theta, z) {
+    .Call('mortfit_mortalityhazard_perks_cpp', PACKAGE = 'mortfit', theta, z)
+}
+
+mortalityhazard_to_prob_perks_cpp <- function(theta, z) {
+    .Call('mortfit_mortalityhazard_to_prob_perks_cpp', PACKAGE = 'mortfit', theta, z)
+}
+
+mortalityhazard_perks_binomial_grad_cpp <- function(theta, ages, Dx, Nx) {
+    .Call('mortfit_mortalityhazard_perks_binomial_grad_cpp', PACKAGE = 'mortfit', theta, ages, Dx, Nx)
+}
+
 mortalityhazard_quadratic_cpp <- function(theta, z) {
     .Call('mortfit_mortalityhazard_quadratic_cpp', PACKAGE = 'mortfit', theta, z)
 }

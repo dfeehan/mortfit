@@ -26,6 +26,7 @@
 ## @include mortalityhazard-quadratic.R
 ## @include mortalityhazard-weibull.R
 ## @include mortalityhazard-beard.R
+## @include mortalityhazard-perks.R
 
 ###########################################################
 ##' createBinomialModel
@@ -324,7 +325,8 @@ createPoissonModel <- function(haz.obj) {
     fitted.Dx <- fitted.qx*Nx
 
     return(new("mortalityPrediction",
-               name="TODO - eventually fill this in!",
+               ## TODO - eventually fill this in!
+               name="",
                fitted.Dx=fitted.Dx,
                fitted.qx=fitted.qx,
                theta=theta,
@@ -452,6 +454,9 @@ binomialLogisticModel <- createBinomialModel(logistic.haz)
 poissonBeardModel <- createPoissonModel(beard.haz)
 binomialBeardModel <- createBinomialModel(beard.haz)
 
+poissonPerksModel <- createPoissonModel(perks.haz)
+binomialPerksModel <- createBinomialModel(perks.haz)
+
 poissonKannistoModel <- createPoissonModel(kannisto.haz)
 binomialKannistoModel <- createBinomialModel(kannisto.haz)
 
@@ -493,6 +498,7 @@ binomial.models <- c(binomialWeibullModel,
                      binomialGompertzModel,
                      binomialLogisticModel,
                      binomialBeardModel,
+                     binomialPerksModel,
                      binomialKannistoModel
                      ##binomialETAModel
                      )

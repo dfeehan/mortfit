@@ -233,6 +233,44 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// mortalityhazard_perks_cpp
+NumericVector mortalityhazard_perks_cpp(NumericVector theta, NumericVector z);
+RcppExport SEXP mortfit_mortalityhazard_perks_cpp(SEXP thetaSEXP, SEXP zSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
+    rcpp_result_gen = Rcpp::wrap(mortalityhazard_perks_cpp(theta, z));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mortalityhazard_to_prob_perks_cpp
+NumericVector mortalityhazard_to_prob_perks_cpp(NumericVector theta, NumericVector z);
+RcppExport SEXP mortfit_mortalityhazard_to_prob_perks_cpp(SEXP thetaSEXP, SEXP zSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type z(zSEXP);
+    rcpp_result_gen = Rcpp::wrap(mortalityhazard_to_prob_perks_cpp(theta, z));
+    return rcpp_result_gen;
+END_RCPP
+}
+// mortalityhazard_perks_binomial_grad_cpp
+NumericVector mortalityhazard_perks_binomial_grad_cpp(NumericVector theta, NumericVector ages, NumericVector Dx, NumericVector Nx);
+RcppExport SEXP mortfit_mortalityhazard_perks_binomial_grad_cpp(SEXP thetaSEXP, SEXP agesSEXP, SEXP DxSEXP, SEXP NxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type ages(agesSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Dx(DxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Nx(NxSEXP);
+    rcpp_result_gen = Rcpp::wrap(mortalityhazard_perks_binomial_grad_cpp(theta, ages, Dx, Nx));
+    return rcpp_result_gen;
+END_RCPP
+}
 // mortalityhazard_quadratic_cpp
 NumericVector mortalityhazard_quadratic_cpp(NumericVector theta, NumericVector z);
 RcppExport SEXP mortfit_mortalityhazard_quadratic_cpp(SEXP thetaSEXP, SEXP zSEXP) {

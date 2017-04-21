@@ -41,6 +41,7 @@ Collate:
     'mortalityhazard-logistic.R'
     'mortalityhazard-lynchbrown.R'
     'mortalityhazard-makeham.R'
+    'mortalityhazard-perks.R'
     'mortalityhazard-quadratic.R'
     'mortalityhazard-weibull.R'
     'mortalitymodels.R'

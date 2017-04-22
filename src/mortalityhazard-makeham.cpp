@@ -90,9 +90,9 @@ NumericVector mortalityhazard_makeham_cpp(NumericVector theta, NumericVector z)
   //double beta = theta[1];
   //double gamma = exp(theta[2]);
 
-  double alpha = std::abs(theta[0]);
-  double beta = theta[1];
-  double gamma = std::abs(theta[2]);
+  double alpha = std::abs(theta[ALPHA_IDX]);
+  double beta = theta[BETA_IDX];
+  double gamma = std::abs(theta[GAMMA_IDX]);
 
   for(int i=0; i < len; i++) {
 
@@ -118,9 +118,9 @@ NumericVector mortalityhazard_to_prob_makeham_cpp(NumericVector theta, NumericVe
   //double beta = theta[1];
   //double gamma = exp(theta[2]);
 
-  double alpha = std::abs(theta[0]);
-  double beta = theta[1];
-  double gamma = std::abs(theta[2]);
+  double alpha = std::abs(theta[ALPHA_IDX]);
+  double beta = theta[BETA_IDX];
+  double gamma = std::abs(theta[GAMMA_IDX]);
 
 
   double temp1 = 0.0, temp2=0.0;
@@ -160,9 +160,9 @@ NumericVector mortalityhazard_makeham_binomial_grad_cpp(NumericVector theta,
   //double beta = theta[1];
   //double gamma = exp(theta[2]);
 
-  double alpha = std::abs(theta[0]);
-  double beta = theta[1];
-  double gamma = std::abs(theta[2]);
+  double alpha = std::abs(theta[ALPHA_IDX]);
+  double beta = theta[BETA_IDX];
+  double gamma = std::abs(theta[GAMMA_IDX]);
 
   double partI = 0.0, partII =0.0;
 

@@ -48,9 +48,9 @@ mak.haz   <- new("mortalityHazard",
                  name="Makeham",
                  num.param=3L,
                  theta.default=c(0.05, 0.1, 1e-3),
-                 theta.range=list(c(.01, .1),
-                                  c(0.04, .15),
-                                  c(1e-6, 0.1)),
+                 theta.range=list(c(.01, .08),
+                                  c(0.06, .1),
+                                  c(-3e-5, .008)),
                  theta.start.fn=function(data.obj) {
 
                       ## choose starting values by getting b from
@@ -68,7 +68,7 @@ mak.haz   <- new("mortalityHazard",
 
                  },                 
                  optim.default=list(method="BFGS",
-                                    control=list(parscale=c(0.01, 0.01, 0.0001),
+                                    control=list(parscale=c(0.01, 0.01, 0.00001),
                                                  reltol=1e-12,
                                                  maxit=10000)),
                  haz.fn=mortalityhazard_makeham_cpp,

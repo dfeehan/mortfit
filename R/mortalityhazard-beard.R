@@ -31,9 +31,9 @@ beard.haz   <- new("mortalityHazard",
                    theta.default=c(-2.95, 
                                    -1.9, 
                                    -1.7),
-                   theta.range=list(c(-3.49, -2.6),
-                                    c(-3, 1.1),
-                                    c(-3, 1.1)),
+                   theta.range=list(c(-3.36, -2.76),
+                                    c(-2.55, -2),
+                                    c(-5.8, -1.78)),
                    theta.start.fn=function(data.obj) {
 
                      ## choose starting values by getting b from

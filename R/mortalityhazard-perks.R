@@ -10,10 +10,10 @@ perks.haz   <- new("mortalityHazard",
                                    -1.9, 
                                    0, 
                                    -1.7),
-                   theta.range=list(c(-3.49, -2.6),
-                                    c(-3, 1.1),
-                                    c(log(1e-10), log(2)),
-                                    c(-3, 1.1)),
+                   theta.range=list(c(-3.43, -2.76),
+                                    c(-2.5, -1.8),
+                                    c(-160, -4.7),
+                                    c(-7.4, -1.75)),
                    theta.start.fn=function(data.obj) {
 
                      ## choose starting values by getting b from

@@ -136,7 +136,7 @@ quad.haz.to.prob.cpp <- function(haz.fn, theta, z) {
 
 ## these starting values have been updated based on preliminary analysis
 quad.haz <- new("mortalityHazard",
-                name="Quadratic",
+                name="Log-Quadratic",
                 num.param=3L,
                 theta.default=c(-3.04, .097, -8e-4),
                 theta.range=list(c(-3.46, -2.76),

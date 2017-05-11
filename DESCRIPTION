@@ -1,8 +1,8 @@
 Package: mortfit
 Type: Package
 Title: Fit and evaluate mortality models
-Version: 0.0.1
-Date: 2016-03-01
+Version: 0.0.2
+Date: 2017-05-10
 Author: Dennis Feehan
 Maintainer: Dennis Feehan <feehan@berkeley.edu>
 Description: mortfit is a package to accompany [article],

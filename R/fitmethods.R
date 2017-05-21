@@ -38,9 +38,15 @@ summarize.fit <- function(fit.obj) {
   fitted.qx <- fits$fitted.qx  
   fitted.Dx <- fits$fitted.Dx
 
+  # the number of people starting in the earliest age group is the
+  # cohort size
+  num.obs <- data$Nx[1]
+
   this.AIC <- (-2*fit.obj@log.likelihood+2*fit.obj@model@num.param)
-  this.BIC <- (-2*fit.obj@log.likelihood+2+log(nrow(data))*
+  this.BIC <- (-2*fit.obj@log.likelihood+2+log(num.obs)*
                                                fit.obj@model@num.param)
+  #this.BIC <- (-2*fit.obj@log.likelihood+2+log(nrow(data))*
+  #                                             fit.obj@model@num.param)
   this.SSE.Dx <- sum( obs.Dx*((1-fitted.qx)^2) +
                      (data$Nx-obs.Dx)*(fitted.qx^2))
 

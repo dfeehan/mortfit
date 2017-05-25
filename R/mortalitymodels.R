@@ -158,8 +158,11 @@ createBinomialModel <- function(haz.obj) {
       # the number of people starting in the earliest age group is the
       # cohort size
       num.obs <- data$Nx[1]
+      # num params
+      this.K <- fit.obj@model@num.param
 
       this.AIC <- (-2*fit.obj@log.likelihood+2*fit.obj@model@num.param)
+      this.AICc <- this.AIC + (2*this.K*(this.K+1))/(num.obs-this.K-1) 
       this.BIC <- (-2*fit.obj@log.likelihood+2+log(num.obs)*
                                                fit.obj@model@num.param)
       
@@ -188,6 +191,7 @@ createBinomialModel <- function(haz.obj) {
 
       return(new("fitSummary",
                  AIC=this.AIC,
+                 AICc=this.AICc,
                  BIC=this.BIC,
                  SSE.Dx=this.SSE.Dx,
                  chisq=chisq,
@@ -368,8 +372,13 @@ createPoissonModel <- function(haz.obj) {
     # the number of people starting in the earliest age group is the
     # cohort size
     num.obs <- data$Nx[1]
-    
+    # num params
+    this.K <- fit.obj@model@num.param
+
     this.AIC <- (-2*fit.obj@log.likelihood+2*fit.obj@model@num.param)
+
+    this.AICc <- this.AIC + (2*this.K*(this.K+1))/(num.obs-this.K-1) 
+
     this.BIC <- (-2*fit.obj@log.likelihood+2+log(num.obs)*
                                              fit.obj@model@num.param)
     #this.BIC <- (-2*fit.obj@log.likelihood+2+log(nrow(data))*
@@ -396,6 +405,7 @@ createPoissonModel <- function(haz.obj) {
 
     return(new("fitSummary",
                AIC=this.AIC,
+               AICc=this.AICc,
                BIC=this.BIC,
                SSE.Dx=this.SSE.Dx,
                chisq=chisq,

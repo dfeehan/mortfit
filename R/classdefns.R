@@ -178,6 +178,7 @@ setClass("fitMethod",
 ##' @exportClass fitSummary
 setClass("fitSummary",
          representation(AIC="numeric",
+                        AICc="numeric",
                         BIC="numeric",
                         SSE.Dx="numeric",
                         chisq="numeric",

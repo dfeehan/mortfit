@@ -3,10 +3,14 @@
 
 ## parameter transformation
 lb.param.trans <- function(theta) {
-    return(c(exp(theta[1]),
+    return(c(theta[1],
              exp(theta[2]),
              exp(theta[3]),
              theta[4]))
+    #return(c(exp(theta[1]),
+    #         exp(theta[2]),
+    #         exp(theta[3]),
+    #         theta[4]))
 }
 
 ## hazard function
@@ -40,7 +44,7 @@ lb.haz.to.prob <- function(haz.fn, theta, z) {
     res3 <- 2*gamma*(z-delta)*atan(gamma*(delta-z))
     res4 <- 2*gamma*(delta-z-1)*atan(gamma*(delta-z-1))
     res5 <- log1p((gamma^2)*((delta-z)^2))
-    res6 <- log1p((gamma^2)*((delta-z-1)^2))    
+    res6 <- log1p((gamma^2)*((delta-z-1)^2))
 
     res <- res1 + res2*(res3 + res4 + res5 - res6)
 
@@ -83,11 +87,13 @@ lb.haz.to.prob.cpp <- function(haz.fn, theta, z) {
 lb.haz   <- new("mortalityHazard",
                 name="Lynch-Brown",
                 num.param=4L,
-                theta.default=c(-1.57, -1.485, -2.23, 16),
+                #theta.default=c(-1.57, -1.485, -2.23, 16),
+                theta.default=c(1.0, -1.485, -2.23, 16),
                 ## NB: these are the ranges that random thetas
                 ##     are drawn from; they are not typical ranges
                 ##     but rather safe starting values
-                theta.range=list(c(-.1, 1.57),
+                #theta.range=list(c(-.1, 1.57),
+                theta.range=list(c(0.9, 4.8),
                                  c(-1.53, -1.43),
                                  c(-3.0, -2.0),
                                  c(-5, 22)),
@@ -101,7 +107,7 @@ lb.haz   <- new("mortalityHazard",
 
                   crude[crude > 1] <- .9999
                   crude[crude == 0] <- .000001
-                  
+
                   roughmod <- glm(crude ~ age,
                                   data=dat,
                                   weight=dat$Nx,
@@ -113,7 +119,7 @@ lb.haz   <- new("mortalityHazard",
                   ## age at which fitted probs are closest to the mean
                   ## (one way of thinking about middle age wrt death rates)
                   age.mid <- dat$age[age.mid.idx]
-                  
+
                   ## beta is the maximum value that the hazard rates attain,
                   ## scaled by pi
                   beta <- max(crude)/pi
@@ -135,7 +141,7 @@ lb.haz   <- new("mortalityHazard",
                   if (gamma < 0) {
                     gamma <- 1e-5
                   }
-                  
+
                   ## rough starting value for delta is age at which
                   ## exposure-weighted linear probability model on central
                   ## death rates is halfway to max...
@@ -152,17 +158,18 @@ lb.haz   <- new("mortalityHazard",
                   if (rawval < 0) {
                     alpha <- -rawval + .01
                   } else {
-                    alpha <- rawval 
+                    alpha <- rawval
                   }
 
-                  
+
                   return(c(alpha,log(beta),log(gamma),delta))
-                  
-                },                
+
+                },
                 optim.default=list(method="BFGS",
-                                   control=list(parscale=c(0.01, 
-                                                           0.1, 
-                                                           0.1, 
+                                   #control=list(parscale=c(0.01,
+                                   control=list(parscale=c(0.1,
+                                                           0.1,
+                                                           0.1,
                                                            0.1),
                                                 reltol=1e-10,
                                                 maxit=50000)),

@@ -30,7 +30,7 @@ setClass("mortalityFitOptim",
 ##' @param verbose if TRUE, print extra info
 ##' @param auto.retry if TRUE, then if convergence isn't reached, automatically
 ##'                   retry with another draw of random starting values
-##' @param ... TODO 
+##' @param ... TODO
 ##' @return a mortalityFitOptim object
 ##' @export
 optim.fit <- function(model.obj,
@@ -54,7 +54,7 @@ optim.fit <- function(model.obj,
 
     ## ... unless we're choosing random starting values, in which case
     ## we should do so
-    if (random.start) { 
+    if (random.start) {
 
        if (! is.null(model.obj@theta.range)) {
 
@@ -65,7 +65,7 @@ optim.fit <- function(model.obj,
           numdraw <- 1
 
           ## draw random starting values; keep doing this until the initial
-          ## hazards are all positive (for some hazards, like lynch-brown, 
+          ## hazards are all positive (for some hazards, like lynch-brown,
           ## it's pretty easy to get random starting params that produce negative hazards)
           while (! (all(testhaz > 0) &
                     all(testprob <= 1) &
@@ -95,7 +95,7 @@ optim.fit <- function(model.obj,
               ## for these starting values (to be sure they are feasible)
               testhaz <- model.obj@hazard@haz.fn(theta.init, data@data$age)
               testprob <- model.obj@hazard@haz.to.prob.fn(theta.init, data@data$age)
-              testll <- model.obj@loglik.fn(theta.init, 
+              testll <- model.obj@loglik.fn(theta.init,
                                             Dx=data@data$Dx,
                                             Nx=data@data$Nx,
                                             ages=data@data$age)
@@ -122,7 +122,7 @@ optim.fit <- function(model.obj,
       ## for these starting values (to be sure they are feasible)
       testhaz <- model.obj@hazard@haz.fn(theta.init, data@data$age)
       testprob <- model.obj@hazard@haz.to.prob.fn(theta.init, data@data$age)
-      testll <- model.obj@loglik.fn(theta.init, 
+      testll <- model.obj@loglik.fn(theta.init,
                                     Dx=data@data$Dx,
                                     Nx=data@data$Nx,
                                     ages=data@data$age)
@@ -164,10 +164,10 @@ optim.fit <- function(model.obj,
 
   if (is.null(model.obj@binomial.grad.fn)) {
 
-      ## use the numerical gradient 
+      ## use the numerical gradient
       ## as the default
-      bin_grad <- functional::Curry(numDeriv::grad, 
-                                    func=model.obj@loglik.fn, 
+      bin_grad <- functional::Curry(numDeriv::grad,
+                                    func=model.obj@loglik.fn,
                                     method="Richardson")
 
       ## compute the gradient of the objective function at the
@@ -228,8 +228,8 @@ optim.fit <- function(model.obj,
     if(auto.retry) {
 
         if(verbose) {
-            cat("optimFit's optim.fit: optimization did not converge!\ncalled with ", 
-                 model.obj@name, " - ", data@name, 
+            cat("optimFit's optim.fit: optimization did not converge!\ncalled with ",
+                 model.obj@name, " - ", data@name,
                  "\nstarting values: ", paste(theta.init, sep=", "),  ".\n",
                  " Automatically retrying with random starting values.\n")
         }
@@ -242,12 +242,12 @@ optim.fit <- function(model.obj,
 
     } else {
 
-        stop("optimFit's optim.fit: optimization did not converge!\ncalled with ", 
-             model.obj@name, " - ", data@name, 
+        stop("optimFit's optim.fit: optimization did not converge!\ncalled with ",
+             model.obj@name, " - ", data@name,
              "\nstarting values: ", paste(theta.init, sep=", "),  "\n")
 
     }
-    
+
 
   }
 
@@ -265,7 +265,10 @@ optim.fit <- function(model.obj,
                                    ages=data@data$age))
 
   opt.eigenvalues <- as.numeric(NA)
-  try(opt.eigenvalues <- eigen(opt.hessian)$values)
+  try(opt.eigenvalues <- eigen(opt.hessian)$values,
+      silent=TRUE)
+      #error = function(e) { },
+      #warning = function(w) { })
 
   this.fit <- new("mortalityFitOptim",
                   name=paste(data@name, "-",
@@ -282,9 +285,9 @@ optim.fit <- function(model.obj,
                   opt.gradient=opt.gradient,
                   opt.hessian=opt.hessian,
                   opt.eigenvalues=opt.eigenvalues)
-                             
-                             
-  
+
+
+
   ## TODO -- need to create a fit object to return...
   ##stop("not finished writing this function yet...")
   return(this.fit)

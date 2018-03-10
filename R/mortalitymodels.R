@@ -54,7 +54,7 @@ createBinomialModel <- function(haz.obj) {
       if (any (is.na(rawhaz) | (! is.finite(rawhaz)))) {
         return(NA)
       }
-      
+
       pi <- haz.obj@haz.to.prob.fn(theta, ages )
 
       res <- sum((Dx*log(pi) + (Nx-Dx)*log1p(-pi)))
@@ -86,6 +86,7 @@ createBinomialModel <- function(haz.obj) {
 
       if( means ) {
         Dx <- Nx*pi
+        #Dx <- round(Nx*pi)
       } else {
         Dx <- rbinom(n=age,
                      size=Nx,
@@ -111,7 +112,7 @@ createBinomialModel <- function(haz.obj) {
     ## model, given parameter values and a number of
     ## people who start in each age group
     ## here, the ages passed in should be the
-    ## start of the age interval    
+    ## start of the age interval
     this.predfn <- function(theta,
                             Nx, age,
                             age.offset=79) {
@@ -162,17 +163,17 @@ createBinomialModel <- function(haz.obj) {
       this.K <- fit.obj@model@num.param
 
       this.AIC <- (-2*fit.obj@log.likelihood+2*fit.obj@model@num.param)
-      this.AICc <- this.AIC + (2*this.K*(this.K+1))/(num.obs-this.K-1) 
+      this.AICc <- this.AIC + (2*this.K*(this.K+1))/(num.obs-this.K-1)
       this.BIC <- (-2*fit.obj@log.likelihood+2+log(num.obs)*
                                                fit.obj@model@num.param)
-      
+
       #this.BIC <- (-2*fit.obj@log.likelihood+2+log(nrow(data))*
       #                                         fit.obj@model@num.param)
-      
+
       this.SSE.Dx <- sum( obs.Dx*((1-fitted.qx)^2) +
                      (data$Nx-obs.Dx)*(fitted.qx^2))
       ##this.SSE.Dx <- sum( obs.Dx*((1-fitted.qx)^2) +
-      ##               (data$Nx-obs.Dx)*(fitted.qx^2))      
+      ##               (data$Nx-obs.Dx)*(fitted.qx^2))
 
       ## this is german rodriguez's way to compute the deviance
       ## (see http://data.princeton.edu/wws509/notes/a2s4.html
@@ -221,7 +222,7 @@ createBinomialModel <- function(haz.obj) {
       bgfn <- NULL
     }
 
-    
+
     this.obj <- new("mortalityModel",
                     name=paste("Binomial", "-", haz.obj@name),
                     loglik.fn=this.loglik,
@@ -377,7 +378,7 @@ createPoissonModel <- function(haz.obj) {
 
     this.AIC <- (-2*fit.obj@log.likelihood+2*fit.obj@model@num.param)
 
-    this.AICc <- this.AIC + (2*this.K*(this.K+1))/(num.obs-this.K-1) 
+    this.AICc <- this.AIC + (2*this.K*(this.K+1))/(num.obs-this.K-1)
 
     this.BIC <- (-2*fit.obj@log.likelihood+2+log(num.obs)*
                                              fit.obj@model@num.param)
@@ -424,7 +425,7 @@ createPoissonModel <- function(haz.obj) {
   } else {
     tifn <- NULL
   }
-  
+
   this.obj <- new("mortalityModel",
                   name=paste("Poisson", "-",
                              haz.obj@name),

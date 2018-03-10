@@ -40,7 +40,7 @@ logistic.haz.to.prob <- function(haz.fn, theta, z) {
 
   k0 <- exp(beta*z)
   k1 <- exp(beta*(z+1))
-  
+
   res <- gamma + (alpha/(beta*delta))*(log1p(delta*k1) - log1p(delta*k0))
   res <- 1 - exp(-res)
 
@@ -66,13 +66,15 @@ logistic.haz.to.prob <- function(haz.fn, theta, z) {
 logistic.haz   <- new("mortalityHazard",
                       name="Logistic",
                       num.param=4L,
-                      theta.default=c(-2.95, 
-                                      -1.9, 
-                                      -25, 
-                                      -1.7),
+                      #theta.default=c(-2.7117, -1.9032, -7.6, -1.5982),
+                      theta.default=c(-2.7117, -1.9032, -8, -1.5982),
+                      #theta.default=c(-2.95,
+                      #                -1.9,
+                      #                -25,
+                      #                -1.7),
                       theta.range=list(c(-3.49, -2.6),
                                        c(-3, 1.1),
-                                       c(log(1e-10), log(1e-1)),
+                                       c(log(1e-10), log(1e-2)),
                                        c(-3, 1.1)),
                       theta.start.fn=function(data.obj) {
 
@@ -80,7 +82,7 @@ logistic.haz   <- new("mortalityHazard",
                         ## a logistic regression...
                         dat <- data.obj@data
                         crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
-                        
+
                         crude[crude > 1] <- .99999
                         crude[crude == 0] <- .000001
 
@@ -115,7 +117,7 @@ logistic.haz   <- new("mortalityHazard",
                         ## alpha, we should use max(crude) - gamma,
                         ## but we don't have an estimate of gamma yet, so
                         ## we'll just use max(crude)
-                        
+
                         ## starting value for beta
                         beta.init <- 4*inflect.slope/(max(crude))
                         if (beta.init < 0) {
@@ -133,18 +135,18 @@ logistic.haz   <- new("mortalityHazard",
                         if (delta.init < exp(-3)) {
                           delta.init <- exp(-3)
                         }
-                        
+
                         ## starting value for alpha
                         alpha.init <- (max(crude))*delta.init
 
                         ## starting value for gamma
-                        gamma.init <- min(crude[1:min(5,length(crude))]) - 
+                        gamma.init <- min(crude[1:min(5,length(crude))]) -
                                           (alpha.init / (1 + delta.init))
-                        #gamma.init <- min(crude[1:min(5,length(crude))]) - 
+                        #gamma.init <- min(crude[1:min(5,length(crude))]) -
                         #                  (alpha.init / (1 + alpha.init))
-                        
+
                         if (gamma.init <= 0) {
-                          gamma.init <- 1e-9
+                          gamma.init <- 1e-10
                         }
 
                         return(c(log(alpha.init), log(beta.init),
@@ -152,13 +154,18 @@ logistic.haz   <- new("mortalityHazard",
                       },
                       optim.default=list(method="BFGS",
                                          control=list(
-                                                      parscale=c(-3.9, 
-                                                                 -1.8,
-                                                                 -5,
-                                                                 -2.6),
-                                                      reltol=1e-10,
+                                                      #parscale=c(-.1,
+                                                      #           -1.8,
+                                                      #           -.00001,
+                                                      #           -2.6),
+                                                      parscale=c(-.1,
+                                                                 -1,
+                                                                 -.00001,
+                                                                 -1),
+                                                      #reltol=1e-10,
+                                                      reltol=1e-12,
                                                       maxit=50000)),
-                                                      ##trace=6)),                      
+                                                      ##trace=6)),
                        haz.fn=mortalityhazard_logistic_cpp,
                        #binomial.grad.fn=NULL,
                        binomial.grad.fn=mortalityhazard_logistic_binomial_grad_cpp,

@@ -1,5 +1,5 @@
 ########################
-# makeham hazard 
+# makeham hazard
 
 ## makeham hazard fn
 mak.haz.fn <- function(theta, z) {
@@ -13,7 +13,7 @@ mak.haz.fn <- function(theta, z) {
   ## ensure only non-negative results are returned
   ## (hazards can't be negative)
   res[res<0] <- NA
-  
+
   return(res)
 
 }
@@ -59,16 +59,19 @@ mak.haz   <- new("mortalityHazard",
                       crude <- dat$Dx/(dat$Nx-0.5*dat$Dx)
                       crude[crude<1e-10] <- 1e-10
 
-                      #offset <- min(crude) 
+                      #offset <- min(crude)
                       offset <- 1e-10
                       logcrude.shifted <- log(crude) - offset
 
                       prelim.b <- coef(lm(logcrude.shifted ~ age,data=dat))
-                      return(c(exp(prelim.b[1]), prelim.b[2], offset))
+                      #return(c(exp(prelim.b[1]), prelim.b[2], offset))
+                      return(c(exp(prelim.b[1]), prelim.b[2], exp(offset)))
 
-                 },                 
+                 },
                  optim.default=list(method="BFGS",
                                     control=list(parscale=c(0.01, 0.01, 0.00001),
+                                    #control=list(parscale=c(0.01, 0.01, 0.0001),
+                                    #control=list(parscale=c(0.01, 0.01, 0.0001),
                                                  reltol=1e-12,
                                                  maxit=10000)),
                  haz.fn=mortalityhazard_makeham_cpp,

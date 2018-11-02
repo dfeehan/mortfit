@@ -5,11 +5,6 @@ Fit mortality hazard models, with special attention to humans at old ages.
 
 Package currently under development. Stay tuned.
 
-TODO
-----
-
-- go through and remove subset(); this should only be used interactively. see https://github.com/hadley/devtools/wiki/Evaluation for useful info
-
 NOTE
 ----
 
@@ -67,6 +62,11 @@ TODO
 		- the hazard function itself
 		- the gradient function (may involve a few functions)
 		- the hazard to probability function
+
+TODO (legacy)
+----
+
+- go through and remove subset(); this should only be used interactively. see https://github.com/hadley/devtools/wiki/Evaluation for useful info
 
 
 

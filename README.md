@@ -3,10 +3,8 @@
 
 Fit mortality hazard models, with special attention to humans at old ages.
 
-Package currently under development. Stay tuned.
-
-NOTE
-----
+NOTES
+-----
 
 * 20160526 - this depends on the version of RcppFaddeeva that is on github and
   *not* the CRAN version. (The github version exports the Rcpp headers properly.)
@@ -16,18 +14,13 @@ NOTE
 
   in order to build this version
 
+(NB: The issue opened by Tim Riffe on github has a solution)
 
-ideas for tests
----------------
-
-* be sure that the predicted values from all of the pre-defined functional forms always make sense (probs between 0 and 1, numbers of deaths never more than number of people, etc)
-
-* be sure that optim always converges on test datasets
-
-* test for haz.to.prob: one way of doing this is to take fairly easy cases, with known closed-form solutions, and to test the haz.to.prob output against them
 
 To add a hazard function
 ------------------------
+
+Example steps used to create the Beard hazard object:
 
 * create `mortalityhazard-beard.R`
 	- include code to create new `mortalityHazard` object
@@ -43,38 +36,7 @@ To add a hazard function
 	* `mortalityhazard_beard_binomial_grad_cpp` - calculates the gradient of the binomial likelihood
 	* `beard_partial_alpha_partI` - calculates first part of gradient wrt alpha
 	* `beard_partial_alpha_partII` - calculates second part of gradient wrt alpha
-	* similarl functions to calculate gradient wrt other params
-
-TODO
-----
-
-	* `mortalitymodels.R` 
-		- add createBinomialModel() call for new hazard
-		- add the new model to the list binomial.models
-	* `mortalityhazard-[NAME].R` - main purpose of this file is to create a
-	  new `mortalityhazard` object. Most of the work here involves creating
-		- the hazard function itself (probably in C++)
-		* the gradient function (probably in C++)
-		* a function to turn hazards over an age range into conditional probabilities
-		  (probably in C++)
-		- a function to calculate starting values for optimization
-	* `mortalityhazard-[NAME].cpp` will have
-		- the hazard function itself
-		- the gradient function (may involve a few functions)
-		- the hazard to probability function
-
-TODO (legacy)
-----
-
-- go through and remove subset(); this should only be used interactively. see https://github.com/hadley/devtools/wiki/Evaluation for useful info
-
-
-
-Components of a mortality model
--------------------------------
-
-* a probability model; in all of this work, we use the Binomial model
-  (see `mortalitymodels.R`)
+	* similar functions to calculate gradient wrt other params
 
 
 
